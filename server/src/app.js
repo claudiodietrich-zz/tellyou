@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -14,4 +15,13 @@ app.use((error, req, res, next) => {
   res.status(status).json(error.message)
 })
 
-app.listen(3000)
+async function startServer () {
+  try {
+    await mongoose.connect('mongodb://localhost:27017/tellyou', { useNewUrlParser: true })
+    app.listen(3000)
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+startServer()
