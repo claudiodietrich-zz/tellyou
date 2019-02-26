@@ -10,6 +10,8 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(cors())
 
+app.use('/api/users', require('./user/user.routes'))
+
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500
   res.status(status).json(error.message)
