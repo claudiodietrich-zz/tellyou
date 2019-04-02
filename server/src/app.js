@@ -2,12 +2,14 @@ const express = require('express')
 const mongoose = require('mongoose')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
+const expressValidator = require('express-validator')
 const cors = require('cors')
 
 const app = express()
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
+app.use(expressValidator())
 app.use(cors())
 
 app.use('/api/users', require('./user/user.routes'))
