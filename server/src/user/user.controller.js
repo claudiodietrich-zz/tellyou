@@ -1,8 +1,11 @@
 const User = require('./user.model')
+const { validationHandler } = require('../utils/validation')
 const bcrypt = require('bcryptjs')
 
 exports.singup = async function (req, res, next) {
   try {
+    await validationHandler(req)
+
     const { name, email } = req.body
     const password = bcrypt.hashSync(req.body.password, 10)
 
