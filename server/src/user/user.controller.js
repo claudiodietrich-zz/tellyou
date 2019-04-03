@@ -1,6 +1,7 @@
+const bcrypt = require('bcryptjs')
 const User = require('./user.model')
 const { validationHandler } = require('../utils/validation')
-const bcrypt = require('bcryptjs')
+const { generateToken } = require('../utils/security')
 
 exports.singup = async function (req, res, next) {
   try {
@@ -11,7 +12,9 @@ exports.singup = async function (req, res, next) {
 
     const user = await User.create({ name, email, password })
 
-    res.status(200).json(user)
+    const token = generateToken({ userId: user.id })
+
+    res.status(200).json(token)
   } catch (error) {
     next(error)
   }
