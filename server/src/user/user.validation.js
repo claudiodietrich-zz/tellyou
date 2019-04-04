@@ -7,6 +7,10 @@ exports.validate = (method) => {
     case 'singup' : {
       return singupValidation()
     }
+
+    case 'authenticate': {
+      return authenticateValidation()
+    }
   }
 }
 
@@ -27,6 +31,18 @@ const singupValidation = () => {
       .exists().withMessage(validationMessages.exists)
       .isString().withMessage(validationMessages.isString)
       .isLength({ min: 6 }).withMessage(validationMessages.isLength)
+  ]
+}
+
+const authenticateValidation = () => {
+  return [
+    body('email')
+      .exists().withMessage(validationMessages.exists)
+      .isEmail().withMessage(validationMessages.isEmail)
+      .trim(),
+    body('password')
+      .exists().withMessage(validationMessages.exists)
+      .isString().withMessage(validationMessages.isString)
   ]
 }
 

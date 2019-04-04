@@ -19,3 +19,23 @@ exports.singup = async function (req, res, next) {
     next(error)
   }
 }
+
+exports.authenticate = async function (req, res, next) {
+  try {
+    validationHandler(req)
+
+    const { email, password } = req.body
+
+    const user = await User.findOne({ email })
+    if (!user) throw new Error('incorrect email or password')
+
+    const passwordMatch = bcrypt.compareSync(password, user.password)
+    if (!passwordMatch) throw new Error('incorrect email or password')
+
+    const token = generateToken({ userId: user.id })
+
+    res.status(200).json(token)
+  } catch (error) {
+    next(error)
+  }
+}
