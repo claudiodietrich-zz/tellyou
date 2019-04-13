@@ -26,36 +26,18 @@ const createValidation = () => {
     body('keywords')
       .optional()
       .isArray().withMessage(validationMessages.isArray)
-      .custom(keywords => {
-        return keywordIsString(keywords)
-      }).withMessage(`keyword ${validationMessages.isString}`)
-      .customSanitizer(keywords => {
-        return keywords.map(keyword => { return validator.trim(keyword) })
-      }),
+      .custom(keywordIsString).withMessage(`keyword ${validationMessages.isString}`)
+      .customSanitizer(keywords => { return keywords.map(keyword => { return validator.trim(keyword) }) }),
     body('authors')
       .exists().withMessage(validationMessages.exists)
       .isArray().withMessage(validationMessages.isArray)
-      .custom(authors => {
-        return authorIsObject(authors)
-      }).withMessage('author must be an object')
-      .custom(authors => {
-        return authorContainsUser(authors)
-      }).withMessage('author must contain a user id')
-      .custom(authors => {
-        return userIsObjectId(authors)
-      }).withMessage(`user must be a valid Object ID`)
-      .custom(authors => {
-        return userIsRegistered(authors)
-      }).withMessage('user must be registered')
-      .custom(authors => {
-        return authorContainsRole(authors)
-      }).withMessage(`author must contain a role`)
-      .custom(authors => {
-        return roleIsNumber(authors)
-      }).withMessage('must be a number')
-      .custom(authors => {
-        return roleIsValid(authors)
-      }).withMessage('author role must be a valid role')
+      .custom(authorIsObject).withMessage('author must be an object')
+      .custom(authorContainsUser).withMessage('author must contain a user id')
+      .custom(userIsObjectId).withMessage(`user must be a valid Object ID`)
+      .custom(userIsRegistered).withMessage('user must be registered')
+      .custom(authorContainsRole).withMessage(`author must contain a role`)
+      .custom(roleIsNumber).withMessage('must be a number')
+      .custom(roleIsValid).withMessage('author role must be a valid role')
   ]
 }
 
