@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs')
 const User = require('./user.model')
 const { body } = require('express-validator/check')
 const { validationMessages } = require('../utils/validation')
@@ -23,9 +24,7 @@ const createValidation = () => {
     body('email')
       .exists().withMessage(validationMessages.exists)
       .isEmail().withMessage(validationMessages.isEmail)
-      .custom(email => {
-        return checkIfEmailIsInUse(email)
-      })
+      .custom(emailIsInUse).withMessage('is already in use')
       .trim(),
     body('password')
       .exists().withMessage(validationMessages.exists)
@@ -39,17 +38,36 @@ const authenticateValidation = () => {
     body('email')
       .exists().withMessage(validationMessages.exists)
       .isEmail().withMessage(validationMessages.isEmail)
+      .custom(userIsRegistered).withMessage('not registered')
       .trim(),
     body('password')
       .exists().withMessage(validationMessages.exists)
       .isString().withMessage(validationMessages.isString)
+      .custom(passwordsMatch).withMessage('is incorrect')
+      .trim()
   ]
 }
 
-const checkIfEmailIsInUse = email => {
-  return User.findOne({ email }).then(user => {
-    if (user) {
-      return Promise.reject(new Error('is already in use'))
-    }
-  })
+const emailIsInUse = async email => {
+  const user = await User.findOne({ email })
+
+  if (user) {
+    return false
+  }
+  return true
+}
+
+const userIsRegistered = async email => {
+  const user = await User.findOne({ email })
+
+  if (!user) {
+    return false
+  }
+  return true
+}
+
+const passwordsMatch = async (password, { req }) => {
+  const user = await User.findOne({ email: req.body.email })
+
+  return bcrypt.compareSync(password, user.password)
 }

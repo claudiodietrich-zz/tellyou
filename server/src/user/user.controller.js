@@ -24,13 +24,9 @@ exports.authenticate = async function (req, res, next) {
   try {
     validationHandler(req)
 
-    const { email, password } = req.body
+    const { email } = req.body
 
     const user = await User.findOne({ email })
-    if (!user) throw new Error('incorrect email or password')
-
-    const passwordMatch = bcrypt.compareSync(password, user.password)
-    if (!passwordMatch) throw new Error('incorrect email or password')
 
     const token = generateToken({ userId: user.id })
 
