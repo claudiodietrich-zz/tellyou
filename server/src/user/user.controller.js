@@ -3,7 +3,7 @@ const User = require('./user.model')
 const { validationHandler } = require('../utils/validation')
 const { generateToken } = require('../utils/security')
 
-exports.singup = async function (req, res, next) {
+exports.create = async function (req, res, next) {
   try {
     validationHandler(req)
 

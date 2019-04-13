@@ -4,8 +4,8 @@ const { validationMessages } = require('../utils/validation')
 
 exports.validate = (method) => {
   switch (method) {
-    case 'singup' : {
-      return singupValidation()
+    case 'create' : {
+      return createValidation()
     }
 
     case 'authenticate': {
@@ -14,7 +14,7 @@ exports.validate = (method) => {
   }
 }
 
-const singupValidation = () => {
+const createValidation = () => {
   return [
     body('name')
       .exists().withMessage(validationMessages.exists)
