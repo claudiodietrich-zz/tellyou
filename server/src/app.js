@@ -13,6 +13,7 @@ app.use(expressValidator())
 app.use(cors())
 
 app.use('/api/users', require('./user/user.routes'))
+app.use('/api/stories', require('./sotry/story.routes'))
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500
