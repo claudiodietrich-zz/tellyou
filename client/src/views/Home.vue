@@ -11,7 +11,7 @@
               <h2 class="subtitle is-size-4-mobile is-size-3-desktop">
                 TellYou é uma ferramenta que permite o compartilhamento de lições aprendidas, através de suas atividades em grupo, de forma dinâmica e colaborativa.
               </h2>
-              <router-link class="button is-primary is-medium is-rounded" v-bind:class="{'is-outlined': !isMobile}" to="/">
+              <router-link class="button is-primary is-medium is-rounded" v-bind:class="{'is-outlined': !isMobile}" to="/singin">
                 Vamos Começar?
               </router-link>
             </div>
