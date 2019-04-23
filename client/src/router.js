@@ -12,12 +12,18 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        hasNavbar: true
+      }
     },
     {
       path: '/singin',
       name: 'singin',
-      component: SingIn
+      component: SingIn,
+      meta: {
+        hasNavbar: false
+      }
     }
   ]
 })

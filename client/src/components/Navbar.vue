@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-fixed-top has-background-secondary" role="navigation" aria-label="main navigation">
+  <nav v-if="this.$route.meta.hasNavbar" class="navbar is-fixed-top has-background-secondary" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="#">
         TellYou
@@ -23,6 +23,7 @@
               cadastrar-se
             </a>
             <a class="button is-light is-rounded">
+              {{  }}
               entrar
             </a>
           </div>
@@ -34,6 +35,9 @@
 
 <script>
 export default {
+  created () {
+    console.log(this.$route.meta)
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

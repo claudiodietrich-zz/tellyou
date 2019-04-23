@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-bind:class="{ 'has-navbar-fixed-top': this.$route.meta.hasNavbar }">
     <navbar/>
     <router-view/>
   </div>
@@ -44,5 +44,9 @@ $colors: (
 <style>
 body {
   font-family: 'Open Sans', sans-serif;
+}
+
+#app.has-navbar-fixed-top {
+  padding-top: 3.25rem;
 }
 </style>
