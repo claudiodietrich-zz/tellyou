@@ -14,7 +14,7 @@ exports.create = async function (req, res, next) {
 
     const token = generateToken({ userId: user.id })
 
-    res.status(200).json(token)
+    res.status(200).json({ token, user })
   } catch (error) {
     next(error)
   }
@@ -31,6 +31,19 @@ exports.authenticate = async function (req, res, next) {
     const token = generateToken({ userId: user.id })
 
     res.status(200).json(token)
+  } catch (error) {
+    next(error)
+  }
+}
+
+exports.findByEmail = async function (req, res, next) {
+  try {
+    validationHandler(req)
+    const email = req.params.email
+
+    const user = await User.findOne({ email })
+
+    res.status(200).json(user)
   } catch (error) {
     next(error)
   }

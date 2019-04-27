@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const User = require('./user.model')
-const { body } = require('express-validator/check')
+const { body, param } = require('express-validator/check')
 const { validationMessages } = require('../utils/validation')
 
 exports.validate = (method) => {
@@ -11,6 +11,10 @@ exports.validate = (method) => {
 
     case 'authenticate': {
       return authenticateValidation()
+    }
+
+    case 'findByEmail': {
+      return findByEmailValidation()
     }
   }
 }
@@ -44,6 +48,15 @@ const authenticateValidation = () => {
       .exists().withMessage(validationMessages.exists)
       .isString().withMessage(validationMessages.isString)
       .custom(passwordsMatch).withMessage('is incorrect')
+      .trim()
+  ]
+}
+
+const findByEmailValidation = () => {
+  return [
+    param('email')
+      .exists().withMessage(validationMessages.exists)
+      .isEmail().withMessage(validationMessages.isEmail)
       .trim()
   ]
 }
