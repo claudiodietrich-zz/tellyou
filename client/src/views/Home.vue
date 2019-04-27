@@ -6,13 +6,13 @@
           <div class="columns is-vcentered">
             <div class="column">
               <h1 class="title is-size-3-mobile is-size-2-desktop is-spaced">
-                Esta é uma nova forma de compartilhar experiências!
+                {{ $t('view.home.hero.title') }}
               </h1>
               <h2 class="subtitle is-size-4-mobile is-size-3-desktop">
-                TellYou é uma ferramenta que permite o compartilhamento de lições aprendidas, através de suas atividades em grupo, de forma dinâmica e colaborativa.
+                {{ $t('view.home.hero.subTitle') }}
               </h2>
               <router-link class="button is-primary is-medium is-rounded" v-bind:class="{'is-outlined': !isMobile}" to="/singin">
-                Vamos Começar?
+                {{ $t('view.home.button.letsStart') }}
               </router-link>
             </div>
 
@@ -62,23 +62,23 @@ export default {
       isMobile: false,
       descriptions: [
         {
-          title: 'Compartilhe conhecimento!',
-          text: 'Conte para seus colegas, de forma criativa, sobre os projetos e outras atividades em grupo, das quais você tenha participado em sua organização.',
+          title: this.$t('view.home.description.shareKnowledge.title'),
+          text: this.$t('view.home.description.shareKnowledge.text'),
           img: require('@/assets/brainstorming.svg')
         },
         {
-          title: 'Conte-nos uma história!',
-          text: 'Através de um método dinâmico e colaborativo, você pode criar uma história, com seus personagens, que conte sobre experiências vivenciadas, pontos positivos e negativos e outros aspectos importantes.',
+          title: this.$t('view.home.description.tellStory.title'),
+          text: this.$t('view.home.description.tellStory.text'),
           img: require('@/assets/group-chat.svg')
         },
         {
-          title: 'Convide outras pessoas para colaborarem!',
-          text: 'Convide seus colegas para participarem da construção da sua narrativa.',
+          title: this.$t('view.home.description.inviteOthers.title'),
+          text: this.$t('view.home.description.inviteOthers.text'),
           img: require('@/assets/live-collaboration.svg')
         },
         {
-          title: 'Melhores resultados em sua organização!',
-          text: 'Através do compartilhamento de ideias e lições aprendidas, é possível estabelecer pontos de melhorias em processos de trabalho e buscar métodos que otimizem e aumentem a produtividade em sua organização.',
+          title: this.$t('view.home.description.betterResults.title'),
+          text: this.$t('view.home.description.betterResults.text'),
           img: require('@/assets/visual-data.svg')
         }
       ]
