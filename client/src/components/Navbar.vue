@@ -19,11 +19,10 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary is-rounded">
+            <router-link class="button is-primary is-rounded" v-bind:to="{ name: 'singIn' }">
               cadastrar-se
-            </a>
+            </router-link>
             <a class="button is-light is-rounded">
-              {{  }}
               entrar
             </a>
           </div>
@@ -35,9 +34,6 @@
 
 <script>
 export default {
-  created () {
-    console.log(this.$route.meta)
-  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
