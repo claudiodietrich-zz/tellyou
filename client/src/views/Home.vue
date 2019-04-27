@@ -11,7 +11,7 @@
               <h2 class="subtitle is-size-4-mobile is-size-3-desktop">
                 {{ $t('view.home.hero.subTitle') }}
               </h2>
-              <router-link class="button is-primary is-medium is-rounded" v-bind:class="{'is-outlined': !isMobile}" to="/singin">
+              <router-link class="button is-primary is-medium is-rounded" v-bind:class="{'is-outlined': !isMobile}" v-bind:to="{ name: 'singIn' }">
                 {{ $t('view.home.button.letsStart') }}
               </router-link>
             </div>
