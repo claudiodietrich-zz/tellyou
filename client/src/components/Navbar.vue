@@ -20,10 +20,10 @@
         <div class="navbar-item">
           <div class="buttons">
             <router-link class="button is-primary is-rounded" v-bind:to="{ name: 'singIn' }">
-              cadastrar-se
+              {{ $t('component.navbar.button.singIn') }}
             </router-link>
             <a class="button is-light is-rounded">
-              entrar
+              {{ $t('component.navbar.button.singUp') }}
             </a>
           </div>
         </div>

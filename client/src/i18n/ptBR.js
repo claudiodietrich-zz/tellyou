@@ -11,6 +11,14 @@ export default {
       validation: 'ops, verifique as informações que você inseriu'
     }
   },
+  component: {
+    navbar: {
+      button: {
+        singIn: 'cadastrar-se',
+        singUp: 'entrar'
+      }
+    }
+  },
   view: {
     home: {
       button: {
