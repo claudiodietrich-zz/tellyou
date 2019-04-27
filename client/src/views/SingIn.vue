@@ -1,8 +1,8 @@
 <template>
-  <section class="hero is-fullheight-with-navbar">
+  <section class="hero is-fullheight has-background-secondary">
     <div class="hero-body">
       <div class="container">
-        <vdiv class="columns">
+        <div class="columns">
           <div class="column is-half is-offset-one-quarter">
             <h1 class="title is-size-3-mobile is-size-2-desktop is-spaced">
               {{ $t('view.singin.hero.title') }}
@@ -11,35 +11,39 @@
               {{ $t('view.singin.hero.subTitle') }}
             </h2>
           </div>
-        </vdiv>
-        <div class="colunms">
+        </div>
+        <div class="columns">
           <div class="column is-half is-offset-one-quarter">
-          <div class="box">
-            <b-field v-bind:label="$t('view.singin.form.name')"
-                     v-bind:type="{ 'is-danger': $v.name.$error }"
-                     v-bind:message="[ !$v.name.required && $v.name.$error ? $t('error.field.is.required'):'' ]">
-                <b-input v-model.trim="name"/>
-            </b-field>
+            <div class="box">
+              <b-field v-bind:label="$t('view.singin.form.label.name')"
+                      v-bind:type="{ 'is-danger': $v.name.$error }"
+                      v-bind:message="[ !$v.name.required && $v.name.$error ? $t('default.error.field.is.required'):'' ]">
+                  <b-input v-model.trim="name"/>
+              </b-field>
 
-            <b-field v-bind:label="$t('view.singin.form.email')"
-                     v-bind:type="{ 'is-danger': $v.email.$error }"
-                     v-bind:message="[ !$v.email.required && $v.email.$error ? $t('error.field.is.required'):'',
-                                       !$v.email.email && $v.email.$error ? $tc('error.field.is.invalid', 1, { field: $t('user.email') }):'']">
-              <b-input type="email" v-model.trim="email"/>
-            </b-field>
+              <b-field v-bind:label="$t('view.singin.form.label.email')"
+                      v-bind:type="{ 'is-danger': $v.email.$error }"
+                      v-bind:message="[ !$v.email.required && $v.email.$error ? $t('default.error.field.is.required'):'',
+                                        !$v.email.email && $v.email.$error ? $tc('default.error.field.is.invalid', 1, { field: $t('user.email') }):'',
+                                        !$v.email.isUnique && $v.email.$error ? $t('user.error.email.isUnique'):'']">
+                <b-input type="email" v-model.trim="email"/>
+              </b-field>
 
-            <b-field v-bind:label="$t('view.singin.form.password')"
-                     v-bind:type="{ 'is-danger': $v.password.$error }"
-                     v-bind:message="[ !$v.password.required && $v.password.$error ? $t('error.field.is.required'):'',
-                                       !$v.password.minLength && $v.password.$error ? $t('user.error.password.minLength', { minLength: 6 }):'' ]">
-              <b-input type="password" v-model.trim="password" password-reveal/>
-            </b-field>
+              <b-field v-bind:label="$t('view.singin.form.label.password')"
+                      v-bind:type="{ 'is-danger': $v.password.$error }"
+                      v-bind:message="[ !$v.password.required && $v.password.$error ? $t('default.error.field.is.required'):'',
+                                        !$v.password.minLength && $v.password.$error ? $t('user.error.password.minLength', { minLength: 6 }):'' ]">
+                <b-input type="password" v-model.trim="password" password-reveal/>
+              </b-field>
 
-            <button v-on:click="$v.$touch()">Validar</button>
-          </div>
+              <div class="has-text-centered">
+                <b-button type="is-primary" rounded v-on:click="singin()">
+                  {{ $t('view.singin.form.button.singin') }}
+                </b-button>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -47,8 +51,12 @@
 
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
+import axios from 'axios'
+import errorMixin from '@/mixins/error'
+import userMixin from '@/mixins/user'
 
 export default {
+  mixins: [ userMixin, errorMixin ],
   data () {
     return {
       name: '',
@@ -62,11 +70,42 @@ export default {
     },
     email: {
       required,
-      email
+      email,
+      async isUnique (value) {
+        try {
+          if (this.$v.email.required && this.$v.email.email) {
+            const response = await axios.get(`/users/email/${value}`)
+            return response.data === null
+          } else {
+            return true
+          }
+        } catch (error) {
+          return false
+        }
+      }
     },
     password: {
       required,
       minLength: minLength(6)
+    }
+  },
+  methods: {
+    async singin () {
+      try {
+        this.$v.$touch()
+
+        if (!this.$v.$invalid) {
+          const response = await axios.post('/users', { name: this.name, email: this.email, password: this.password })
+
+          const { token, user } = response.data
+
+          this.startSession(token, user)
+
+          this.$router.push({ name: 'storyList' })
+        }
+      } catch (error) {
+        this.requestErrorHandler(error.response)
+      }
     }
   }
 }
