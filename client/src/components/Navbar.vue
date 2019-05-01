@@ -1,5 +1,5 @@
 <template>
-  <nav v-if="this.$route.meta.hasNavbar" class="navbar is-fixed-top has-background-secondary" role="navigation" aria-label="main navigation">
+  <nav v-if="this.$route.matched.some(route => route.meta.hasNavbar)" class="navbar is-fixed-top has-background-secondary" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="#">
         TellYou
