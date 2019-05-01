@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-fullheight has-background-secondary">
+  <section class="hero is-fullheight has-background-secondary" v-on:keyup.enter="singUp">
     <div class="hero-body">
       <div class="container">
         <div class="columns">
@@ -37,7 +37,7 @@
               </b-field>
 
               <div class="has-text-centered">
-                <b-button type="is-primary" rounded v-on:click="singUp()">
+                <b-button type="is-primary" rounded v-on:click="singUp">
                   {{ $t('view.singUp.form.button.singUp') }}
                 </b-button>
               </div>
