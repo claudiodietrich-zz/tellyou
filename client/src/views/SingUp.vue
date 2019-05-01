@@ -5,23 +5,23 @@
         <div class="columns">
           <div class="column is-half is-offset-one-quarter">
             <h1 class="title is-size-3-mobile is-size-2-desktop is-spaced">
-              {{ $t('view.singin.hero.title') }}
+              {{ $t('view.singUp.hero.title') }}
             </h1>
             <h2 class="subtitle is-size-4-mobile is-size-3-desktop">
-              {{ $t('view.singin.hero.subTitle') }}
+              {{ $t('view.singUp.hero.subTitle') }}
             </h2>
           </div>
         </div>
         <div class="columns">
           <div class="column is-half is-offset-one-quarter">
             <div class="box">
-              <b-field v-bind:label="$t('view.singin.form.label.name')"
+              <b-field v-bind:label="$t('view.singUp.form.label.name')"
                       v-bind:type="{ 'is-danger': $v.name.$error }"
                       v-bind:message="[ !$v.name.required && $v.name.$error ? $t('default.error.field.is.required'):'' ]">
                   <b-input v-model.trim="name"/>
               </b-field>
 
-              <b-field v-bind:label="$t('view.singin.form.label.email')"
+              <b-field v-bind:label="$t('view.singUp.form.label.email')"
                       v-bind:type="{ 'is-danger': $v.email.$error }"
                       v-bind:message="[ !$v.email.required && $v.email.$error ? $t('default.error.field.is.required'):'',
                                         !$v.email.email && $v.email.$error ? $tc('default.error.field.is.invalid', 1, { field: $t('user.email') }):'',
@@ -29,7 +29,7 @@
                 <b-input type="email" v-model.trim="email"/>
               </b-field>
 
-              <b-field v-bind:label="$t('view.singin.form.label.password')"
+              <b-field v-bind:label="$t('view.singUp.form.label.password')"
                       v-bind:type="{ 'is-danger': $v.password.$error }"
                       v-bind:message="[ !$v.password.required && $v.password.$error ? $t('default.error.field.is.required'):'',
                                         !$v.password.minLength && $v.password.$error ? $t('user.error.password.minLength', { minLength: 6 }):'' ]">
@@ -37,8 +37,8 @@
               </b-field>
 
               <div class="has-text-centered">
-                <b-button type="is-primary" rounded v-on:click="singin()">
-                  {{ $t('view.singin.form.button.singin') }}
+                <b-button type="is-primary" rounded v-on:click="singUp()">
+                  {{ $t('view.singUp.form.button.singUp') }}
                 </b-button>
               </div>
             </div>
@@ -90,7 +90,7 @@ export default {
     }
   },
   methods: {
-    async singin () {
+    async singUp () {
       try {
         this.$v.$touch()
 

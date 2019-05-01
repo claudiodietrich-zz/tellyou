@@ -14,8 +14,8 @@ export default {
   component: {
     navbar: {
       button: {
-        singIn: 'cadastrar-se',
-        singUp: 'entrar'
+        singIn: 'entrar',
+        singUp: 'cadastrar-se'
       }
     }
   },
@@ -47,7 +47,7 @@ export default {
         subTitle: 'TellYou é uma ferramenta que permite o compartilhamento de lições aprendidas, através de suas atividades em grupo, de forma dinâmica e colaborativa.'
       }
     },
-    singin: {
+    singUp: {
       hero: {
         title: 'Que bom que está aqui!',
         subTitle: 'Nos conte sobre você, queremos te conhecer...'
@@ -59,7 +59,7 @@ export default {
           password: 'agora, crie uma senha super secreta'
         },
         button: {
-          singin: 'pronto, enviar minhas informações'
+          singUp: 'pronto, enviar minhas informações'
         }
       }
     }
