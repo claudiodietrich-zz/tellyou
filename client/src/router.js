@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import SingUp from './views/SingUp.vue'
+import SingIn from './views/SingIn.vue'
 import story from '@/routes/story'
 
 Vue.use(Router)
@@ -22,6 +23,14 @@ export default new Router({
       path: '/singup',
       name: 'singUp',
       component: SingUp,
+      meta: {
+        hasNavbar: false
+      }
+    },
+    {
+      path: '/singin',
+      name: 'singIn',
+      component: SingIn,
       meta: {
         hasNavbar: false
       }

@@ -30,7 +30,7 @@ exports.authenticate = async function (req, res, next) {
 
     const token = generateToken({ userId: user.id })
 
-    res.status(200).json(token)
+    res.status(200).json({ token, user })
   } catch (error) {
     next(error)
   }

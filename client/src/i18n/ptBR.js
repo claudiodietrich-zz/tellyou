@@ -47,6 +47,20 @@ export default {
         subTitle: 'TellYou é uma ferramenta que permite o compartilhamento de lições aprendidas, através de suas atividades em grupo, de forma dinâmica e colaborativa.'
       }
     },
+    singIn: {
+      hero: {
+        title: 'Que bom que está de volta!'
+      },
+      form: {
+        label: {
+          email: 'use seu e-mail para entrar',
+          password: 'e a sua senha super secreta'
+        }
+      },
+      button: {
+        singIn: 'entrar'
+      }
+    },
     singUp: {
       hero: {
         title: 'Que bom que está aqui!',
