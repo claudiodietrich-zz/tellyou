@@ -16,6 +16,10 @@ exports.validate = (method) => {
     case 'findByEmail': {
       return findByEmailValidation()
     }
+
+    case 'findByName': {
+      return findByNameValidation()
+    }
   }
 }
 
@@ -57,6 +61,14 @@ const findByEmailValidation = () => {
     param('email')
       .exists().withMessage(validationMessages.exists)
       .isEmail().withMessage(validationMessages.isEmail)
+      .trim()
+  ]
+}
+
+const findByNameValidation = () => {
+  return [
+    param('name')
+      .exists().withMessage(validationMessages.exists)
       .trim()
   ]
 }

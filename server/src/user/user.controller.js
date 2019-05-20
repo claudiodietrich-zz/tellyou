@@ -48,3 +48,16 @@ exports.findByEmail = async function (req, res, next) {
     next(error)
   }
 }
+
+exports.findByName = async function (req, res, next) {
+  try {
+    validationHandler(req)
+    const name = req.params.name
+
+    const users = await User.find({ 'name': { '$regex': name, '$options': 'i' } })
+
+    res.status(200).json(users)
+  } catch (error) {
+    next(error)
+  }
+}
