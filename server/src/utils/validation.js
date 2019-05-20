@@ -14,6 +14,7 @@ exports.validationMessages = {
   exists: 'is required',
   isString: 'must be a string',
   isEmail: 'must be a valid e-mail address',
+  isEmpty: 'can\'t be empty',
   isLength: 'incorrect length',
   isArray: 'must be a array',
   isNumeric: 'must be a numeric'

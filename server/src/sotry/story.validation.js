@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const { body } = require('express-validator/check')
 const { validationMessages } = require('../utils/validation')
 const User = require('../user/user.model')
+const { Archetype } = require('../archetype/archetype.model')
 const storyEnums = require('./story.enum')
 
 exports.validate = method => {
@@ -31,13 +32,31 @@ const createValidation = () => {
     body('authors')
       .exists().withMessage(validationMessages.exists)
       .isArray().withMessage(validationMessages.isArray)
-      .custom(authorIsObject).withMessage('author must be an object')
-      .custom(authorContainsUser).withMessage('author must contain a user id')
-      .custom(userIsObjectId).withMessage(`user must be a valid Object ID`)
+      .custom(arrayCantBeEmpty).withMessage(validationMessages.isEmpty)
+      .custom(arrayItemIsObject).withMessage('author must be an object')
+      .custom(authors => arraryObjectCotainsProperty(authors, 'user')).withMessage('author must contain a user id')
+      .custom(authors => arraryObjectPropertyIsObjectId(authors, 'user')).withMessage(`user must be a valid Object ID`)
       .custom(userIsRegistered).withMessage('user must be registered')
-      .custom(authorContainsRole).withMessage(`author must contain a role`)
-      .custom(roleIsNumber).withMessage('must be a number')
-      .custom(roleIsValid).withMessage('author role must be a valid role')
+      .custom(authors => arraryObjectCotainsProperty(authors, 'role')).withMessage(`author must contain a role`)
+      .custom(authors => arraryObjectPropertyIsTypeof(authors, 'role', 'number')).withMessage('author role must be a number')
+      .custom(roleIsValid).withMessage('author role must be a valid role'),
+    body('archetypes')
+      .exists().withMessage(validationMessages.exists)
+      .isArray().withMessage(validationMessages.isArray)
+      .custom(arrayCantBeEmpty).withMessage(validationMessages.isEmpty)
+      .custom(arrayItemIsObject).withMessage('archetype must be an object')
+      .custom(archetypes => arraryObjectCotainsProperty(archetypes, '_id')).withMessage('archetype must contain a id')
+      .custom(archetypes => arraryObjectCotainsProperty(archetypes, 'name')).withMessage('archetype must contain a name')
+      .custom(archetypes => arraryObjectCotainsProperty(archetypes, 'description')).withMessage('archetype must contain a description')
+      .custom(archetypes => arraryObjectCotainsProperty(archetypes, 'character')).withMessage('archetype must contain a character')
+      .custom(archetypes => arraryObjectCotainsProperty(archetypes, 'required')).withMessage('archetype must contain a required field')
+      .custom(archetypes => arraryObjectPropertyIsObjectId(archetypes, '_id')).withMessage(`archetype _id must be a valid Object ID`)
+      .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'name', 'string')).withMessage('archetype name must be a string')
+      .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'description', 'string')).withMessage('archetype description must be a string')
+      .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'character', 'string')).withMessage('archetype character must be a string')
+      .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'required', 'boolean')).withMessage('archetype required field must be a boolean')
+      .custom(archetypeIsRegistered).withMessage('archetype must be registered')
+      .custom(archetypesHasAllRequiredAarchetype).withMessage('must include all required archetypes')
   ]
 }
 
@@ -54,56 +73,60 @@ const keywordIsString = keywords => {
   return allKeywordsAreStrings
 }
 
-const authorIsObject = authors => {
-  let allAuthorsAreObjects = true
+const arrayCantBeEmpty = array => {
+  return array.length !== 0
+}
 
-  authors.forEach(author => {
-    const isObject = typeof author === 'object'
+const arrayItemIsObject = array => {
+  let allItensAreObjects = true
+
+  array.forEach(item => {
+    const isObject = typeof item === 'object'
     if (!isObject) {
-      allAuthorsAreObjects = false
+      allItensAreObjects = false
     }
   })
 
-  return allAuthorsAreObjects
+  return allItensAreObjects
 }
 
-const authorContainsUser = authors => {
-  let allAuthorsContainsUser = true
+const arraryObjectCotainsProperty = (array, property) => {
+  let allItensContainsValue = true
 
-  authors.forEach(author => {
-    const containUser = 'user' in author
-    if (!containUser) {
-      allAuthorsContainsUser = false
+  array.forEach(item => {
+    const containValue = property in item
+    if (!containValue) {
+      allItensContainsValue = false
     }
   })
 
-  return allAuthorsContainsUser
+  return allItensContainsValue
 }
 
-const userIsObjectId = authors => {
-  let allUsersAreObjectsId = true
+const arraryObjectPropertyIsObjectId = (array, property) => {
+  let allPropertiesAreObjectsId = true
 
-  authors.forEach(author => {
-    const isObjectId = mongoose.Types.ObjectId.isValid(author.user)
+  array.forEach(item => {
+    const isObjectId = mongoose.Types.ObjectId.isValid(item[property])
     if (!isObjectId) {
-      allUsersAreObjectsId = false
+      allPropertiesAreObjectsId = false
     }
   })
 
-  return allUsersAreObjectsId
+  return allPropertiesAreObjectsId
 }
 
-const authorContainsRole = authors => {
-  let allAuthorsContainsRole = true
+const arraryObjectPropertyIsTypeof = (array, property, type) => {
+  let allPropertiesAreTypeof = true
 
-  authors.forEach(author => {
-    const containRole = 'role' in author
-    if (!containRole) {
-      allAuthorsContainsRole = false
+  array.forEach(item => {
+    const isTypeof = typeof item[property] === type
+    if (!isTypeof) {
+      allPropertiesAreTypeof = false
     }
   })
 
-  return allAuthorsContainsRole
+  return allPropertiesAreTypeof
 }
 
 const userIsRegistered = async authors => {
@@ -119,19 +142,6 @@ const userIsRegistered = async authors => {
   return allUsersAreRegistered
 }
 
-const roleIsNumber = authors => {
-  let allRolesAreNumbers = true
-
-  authors.forEach(author => {
-    const isNumber = typeof author.role === 'number'
-    if (!isNumber) {
-      allRolesAreNumbers = false
-    }
-  })
-
-  return allRolesAreNumbers
-}
-
 const roleIsValid = authors => {
   let allRolesAreValid = true
 
@@ -143,4 +153,37 @@ const roleIsValid = authors => {
   })
 
   return allRolesAreValid
+}
+
+const archetypeIsRegistered = async archetypes => {
+  let allArchetypesAreRegistered = true
+
+  for (const archetype of archetypes) {
+    const archetypeIsRegistered = await Archetype.findById(archetype._id)
+    if (archetypeIsRegistered === null) {
+      allArchetypesAreRegistered = false
+    }
+  }
+
+  return allArchetypesAreRegistered
+}
+
+const archetypesHasAllRequiredAarchetype = async archetypes => {
+  let archetypesHasAllRequiredAarchetype = true
+
+  const requiredArchetypes = await Archetype.find({ required: true })
+
+  const archetypesIds = archetypes.map(archetype => {
+    return archetype._id
+  })
+
+  if (requiredArchetypes !== null) {
+    requiredArchetypes.forEach(requiredArchetype => {
+      if (!archetypesIds.includes(requiredArchetype.id)) {
+        archetypesHasAllRequiredAarchetype = false
+      }
+    })
+  }
+
+  return archetypesHasAllRequiredAarchetype
 }

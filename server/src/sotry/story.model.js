@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const storyEnums = require('./story.enum')
+const { archetypeSchema } = require('../archetype/archetype.model')
 
 const Schema = mongoose.Schema
 
@@ -42,7 +43,10 @@ const storySchema = new mongoose.Schema({
         }
       }
     }
-  }]
+  }],
+  archetypes: [
+    archetypeSchema
+  ]
 })
 
 const Story = mongoose.model('Story', storySchema)
