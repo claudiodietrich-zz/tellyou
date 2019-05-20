@@ -8,8 +8,15 @@ import VueI18n from 'vue-i18n'
 import messages from '@/i18n/i18n'
 import axios from 'axios'
 import VueSession from 'vue-session'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCheck, faCheckCircle, faInfoCircle, faExclamationTriangle, faExclamationCircle, faArrowUp, faAngleRight, faAngleLeft, faAngleDown, faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-Vue.use(Buefy)
+library.add(faCheck, faCheckCircle, faInfoCircle, faExclamationTriangle, faExclamationCircle, faArrowUp, faAngleRight, faAngleLeft, faAngleDown, faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload, faChevronLeft, faChevronRight)
+
+Vue.component('vue-fontawesome', FontAwesomeIcon)
+
+Vue.use(Buefy, { defaultIconComponent: 'vue-fontawesome', defaultIconPack: 'fas' })
 Vue.use(Vuelidate)
 Vue.use(VueI18n)
 Vue.use(VueSession, { persist: true })
