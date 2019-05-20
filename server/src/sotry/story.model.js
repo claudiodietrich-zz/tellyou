@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const storyEnums = require('./story.enum')
 const { archetypeSchema } = require('../archetype/archetype.model')
+const { stageSchema } = require('../stage/stage.model')
 
 const Schema = mongoose.Schema
 
@@ -46,6 +47,9 @@ const storySchema = new mongoose.Schema({
   }],
   archetypes: [
     archetypeSchema
+  ],
+  stages: [
+    stageSchema
   ]
 })
 

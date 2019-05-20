@@ -4,6 +4,7 @@ const { body } = require('express-validator/check')
 const { validationMessages } = require('../utils/validation')
 const User = require('../user/user.model')
 const { Archetype } = require('../archetype/archetype.model')
+const { Stage } = require('../stage/stage.model')
 const storyEnums = require('./story.enum')
 
 exports.validate = method => {
@@ -56,7 +57,27 @@ const createValidation = () => {
       .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'character', 'string')).withMessage('archetype character must be a string')
       .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'required', 'boolean')).withMessage('archetype required field must be a boolean')
       .custom(archetypeIsRegistered).withMessage('archetype must be registered')
-      .custom(archetypesHasAllRequiredAarchetype).withMessage('must include all required archetypes')
+      .custom(archetypesHasAllRequiredAarchetype).withMessage('must include all required archetypes'),
+    body('stages')
+      .exists().withMessage(validationMessages.exists)
+      .isArray().withMessage(validationMessages.isArray)
+      .custom(arrayCantBeEmpty).withMessage(validationMessages.isEmpty)
+      .custom(stages => arraryObjectCotainsProperty(stages, '_id')).withMessage('stage must contain a id')
+      .custom(stages => arraryObjectCotainsProperty(stages, 'number')).withMessage('stage must contain a number')
+      .custom(stages => arraryObjectCotainsProperty(stages, 'name')).withMessage('stage must contain a name')
+      .custom(stages => arraryObjectCotainsProperty(stages, 'description')).withMessage('stage must contain a description')
+      .custom(stages => arraryObjectCotainsProperty(stages, 'context')).withMessage('stage must contain a context')
+      .custom(stages => arraryObjectCotainsProperty(stages, 'keyPhrases')).withMessage('stage must contain key phrases')
+      .custom(stages => arraryObjectCotainsProperty(stages, 'required')).withMessage('stage must contain a required field')
+      .custom(stages => arraryObjectPropertyIsObjectId(stages, '_id')).withMessage(`stage _id must be a valid Object ID`)
+      .custom(stages => arraryObjectPropertyIsTypeof(stages, 'number', 'number')).withMessage('stage number must be a number')
+      .custom(stages => arraryObjectPropertyIsTypeof(stages, 'name', 'string')).withMessage('stage name must be a string')
+      .custom(stages => arraryObjectPropertyIsTypeof(stages, 'description', 'string')).withMessage('stage description must be a string')
+      .custom(stages => arraryObjectPropertyIsArray(stages, 'context')).withMessage('stage context must be a array')
+      .custom(stages => arraryObjectPropertyIsArray(stages, 'keyPhrases')).withMessage('stage keyPhrases must be a array')
+      .custom(stages => arraryObjectPropertyIsTypeof(stages, 'required', 'boolean')).withMessage('stage required must be a boolean')
+      .custom(stageIsRegistered).withMessage('stage must be registered')
+      .custom(stagesHasAllRequiredStages).withMessage('must include all required stages')
   ]
 }
 
@@ -129,6 +150,19 @@ const arraryObjectPropertyIsTypeof = (array, property, type) => {
   return allPropertiesAreTypeof
 }
 
+const arraryObjectPropertyIsArray = (array, property) => {
+  let allPropertiesAreArray = true
+
+  array.forEach(item => {
+    const isArray = Array.isArray(item[property])
+    if (!isArray) {
+      allPropertiesAreArray = false
+    }
+  })
+
+  return allPropertiesAreArray
+}
+
 const userIsRegistered = async authors => {
   let allUsersAreRegistered = true
 
@@ -186,4 +220,37 @@ const archetypesHasAllRequiredAarchetype = async archetypes => {
   }
 
   return archetypesHasAllRequiredAarchetype
+}
+
+const stageIsRegistered = async stages => {
+  let allStagesAreRegistered = true
+
+  for (const stage of stages) {
+    const stageIsRegistered = await Stage.findById(stage._id)
+    if (stageIsRegistered === null) {
+      allStagesAreRegistered = false
+    }
+  }
+
+  return allStagesAreRegistered
+}
+
+const stagesHasAllRequiredStages = async stages => {
+  let stagesHasAllRequiredAarchetype = true
+
+  const requiredStages = await Stage.find({ required: true })
+
+  const stagesIds = stages.map(stage => {
+    return stage._id
+  })
+
+  if (requiredStages !== null) {
+    requiredStages.forEach(requiredStage => {
+      if (!stagesIds.includes(requiredStage.id)) {
+        stagesHasAllRequiredAarchetype = false
+      }
+    })
+  }
+
+  return stagesHasAllRequiredAarchetype
 }
