@@ -14,3 +14,13 @@ module.exports.create = async function (req, res, next) {
     next(error)
   }
 }
+
+module.exports.findAll = async function (req, res, next) {
+  try {
+    const stories = await Story.find({})
+
+    res.status(200).json(stories)
+  } catch (error) {
+    next(error)
+  }
+}
