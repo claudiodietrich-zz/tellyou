@@ -13,7 +13,6 @@ const archetypeSchema = new mongoose.Schema({
   },
   character: {
     type: String,
-    required: true,
     trim: true,
     default: ''
   },
