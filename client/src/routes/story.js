@@ -11,6 +11,11 @@ export default {
       path: 'list',
       name: 'storyList',
       component: () => import(/* webpackChunkName: "story" */ '@/views/story/List.vue')
+    },
+    {
+      path: 'create',
+      name: 'storyCreate',
+      component: () => import(/* webpackChunkName: "story" */ '@/views/story/Create.vue')
     }
   ]
 }

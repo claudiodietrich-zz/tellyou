@@ -1,4 +1,12 @@
 export default {
+  component: {
+    navbar: {
+      button: {
+        singIn: 'entrar',
+        singUp: 'cadastrar-se'
+      }
+    }
+  },
   default: {
     error: {
       field: {
@@ -9,13 +17,37 @@ export default {
       },
       message: 'ops, ocorreu um erro inesperado',
       validation: 'ops, verifique as informações que você inseriu'
+    },
+    label: {
+      add: 'adicionar {arg}',
+      backward: 'voltar',
+      forward: 'avançar',
+      register: 'cadastrar'
     }
   },
-  component: {
-    navbar: {
-      button: {
-        singIn: 'entrar',
-        singUp: 'cadastrar-se'
+  story: {
+    archetype: 'arquétipo',
+    character: 'personagem',
+    revisor: 'revisor',
+    storyteller: 'contador'
+  },
+  stage: {
+    contex: 'contexto',
+    description: 'descrição',
+    keyPhrase: 'palaras-chave',
+    label: 'estágio',
+    number: 'nº'
+  },
+  user: {
+    email: 'e-mail',
+    name: 'nome',
+    password: 'senha',
+    error: {
+      email: {
+        isUnique: 'ops, parece que esse e-mail já foi cadastrado'
+      },
+      password: {
+        minLength: 'ops, sua senha precisa ter no mínimo {minLength} caracteres'
       }
     }
   },
@@ -76,18 +108,35 @@ export default {
           singUp: 'pronto, enviar minhas informações'
         }
       }
-    }
-  },
-  user: {
-    email: 'e-mail',
-    name: 'nome',
-    password: 'senha',
-    error: {
-      email: {
-        isUnique: 'ops, parece que esse e-mail já foi cadastrado'
-      },
-      password: {
-        minLength: 'ops, sua senha precisa ter no mínimo {minLength} caracteres'
+    },
+    story: {
+      create: {
+        title: 'Nova História',
+        form: {
+          label: {
+            leader: 'O líder irá conduzir o desenvolvimento da narrativa, organizar a história e estimular a participação do grupo.',
+            objective: 'qual o objetivo da história?',
+            revisors: 'Os revisores irão editar a história, formatando e aprimorando o texto, até a sua finalização.',
+            storytellers: 'Os contadores irão narrar cada evento que irá compor a história',
+            title: 'qual o título da história?',
+            keywords: 'palavras-chaves ajudam outras pessoas a encontrarem sua história'
+          },
+          message: {
+            keywords: 'a cada palavra-chave digitada, pressione enter',
+            revisors: 'a cada nome digitado, pressione enter',
+            storytellers: 'a cada nome digitado, pressione enter'
+          },
+          title: {
+            archetypes: 'Quais arquétipos serão utilizados?',
+            author: 'Quem serão os autores dessa narrativa?',
+            stage: 'Quais estágios serão utilizados?',
+            story: 'Vamos precisar de algumas insformações...'
+          },
+          description: {
+            archetypes: 'Arquétipo é um padrão de personalidade de cada personagem. Deve estar relacionado à sua função/papel dentro da história, visando determinado resultado ou efeito. <br> <small class="has-text-grey">*Arquétipos obrigatórios já vêm selecionados</small>',
+            stage: 'Escolha os estágios que melhor se adaptem ao contexto e ao propósito da história, lembrando que, manter jornadas emocionantes, ajuda a prender a atenção do público. Reordene os estágios conforme a necessidade.'
+          }
+        }
       }
     }
   }
