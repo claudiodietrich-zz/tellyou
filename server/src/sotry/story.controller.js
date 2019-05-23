@@ -24,3 +24,21 @@ module.exports.findAll = async function (req, res, next) {
     next(error)
   }
 }
+
+module.exports.findAllByUser = async function (req, res, next) {
+  try {
+    validationHandler(req)
+
+    const userId = req.params.userId
+
+    const stories = await Story.find({
+      'authors.user': {
+        $eq: userId
+      }
+    })
+
+    res.status(200).json(stories)
+  } catch (error) {
+    next(error)
+  }
+}

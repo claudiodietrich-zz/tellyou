@@ -12,10 +12,11 @@ exports.validationHandler = (req) => {
 
 exports.validationMessages = {
   exists: 'is required',
+  isArray: 'must be a array',
   isString: 'must be a string',
   isEmail: 'must be a valid e-mail address',
   isEmpty: 'can\'t be empty',
   isLength: 'incorrect length',
-  isArray: 'must be a array',
-  isNumeric: 'must be a numeric'
+  isNumeric: 'must be a numeric',
+  isObjetcId: 'must be an valid ObjetcId'
 }

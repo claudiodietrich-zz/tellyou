@@ -1,6 +1,6 @@
 const validator = require('validator')
 const mongoose = require('mongoose')
-const { body } = require('express-validator/check')
+const { body, param } = require('express-validator/check')
 const { validationMessages } = require('../utils/validation')
 const User = require('../user/user.model')
 const { Archetype } = require('../archetype/archetype.model')
@@ -11,6 +11,10 @@ exports.validate = method => {
   switch (method) {
     case 'create' : {
       return createValidation()
+    }
+
+    case 'findAllByUser': {
+      return findAllByUserValidation()
     }
   }
 }
@@ -81,17 +85,18 @@ const createValidation = () => {
   ]
 }
 
-const keywordIsString = keywords => {
-  let allKeywordsAreStrings = true
+const findAllByUserValidation = () => {
+  return [
+    param('userId')
+      .exists().withMessage(validationMessages.exists)
+      .isString().withMessage(validationMessages.isString)
+      .custom(isObjectId).withMessage(validationMessages.isObjetcId)
+      .trim()
+  ]
+}
 
-  keywords.forEach(keyword => {
-    const isString = typeof keyword === 'string'
-    if (!isString) {
-      allKeywordsAreStrings = false
-    }
-  })
-
-  return allKeywordsAreStrings
+const isObjectId = id => {
+  return mongoose.Types.ObjectId.isValid(id)
 }
 
 const arrayCantBeEmpty = array => {
@@ -163,6 +168,18 @@ const arraryObjectPropertyIsArray = (array, property) => {
   return allPropertiesAreArray
 }
 
+const keywordIsString = keywords => {
+  let allKeywordsAreStrings = true
+
+  keywords.forEach(keyword => {
+    const isString = typeof keyword === 'string'
+    if (!isString) {
+      allKeywordsAreStrings = false
+    }
+  })
+
+  return allKeywordsAreStrings
+}
 const userIsRegistered = async authors => {
   let allUsersAreRegistered = true
 
