@@ -20,12 +20,25 @@ export default {
     },
     label: {
       add: 'adicionar {arg}',
+      all: {
+        female: 'todas as {arg}',
+        male: 'todos os {arg}'
+      },
       backward: 'voltar',
+      create: 'criar {arg}',
+      delete: 'excluir',
+      edit: 'editar',
       forward: 'avançar',
-      register: 'cadastrar'
+      my: {
+        female: 'minha {arg} | minhas {arg}',
+        male: 'meu {arg} | meus {arg}'
+      },
+      register: 'cadastrar',
+      view: 'visualizar'
     }
   },
   story: {
+    label: 'história | histórias',
     archetype: 'arquétipo',
     character: 'personagem',
     revisor: 'revisor',
@@ -136,6 +149,14 @@ export default {
             archetypes: 'Arquétipo é um padrão de personalidade de cada personagem. Deve estar relacionado à sua função/papel dentro da história, visando determinado resultado ou efeito. <br> <small class="has-text-grey">*Arquétipos obrigatórios já vêm selecionados</small>',
             stage: 'Escolha os estágios que melhor se adaptem ao contexto e ao propósito da história, lembrando que, manter jornadas emocionantes, ajuda a prender a atenção do público. Reordene os estágios conforme a necessidade.'
           }
+        }
+      },
+      list: {
+        empty: {
+          user: {
+            stories: 'oops... parace que você ainda não tem nenhuma história'
+          },
+          stories: 'oops... parace que ainda não temos nenhuma história cadastrada'
         }
       }
     }

@@ -1,13 +1,16 @@
 export default {
   methods: {
     requestErrorHandler (error) {
-      const status = error.status
       let message = this.$t('default.error.message')
 
-      switch (status) {
-        case 422:
-          message = this.$t('default.error.validation')
-          break
+      if (error.status) {
+        const status = error.status
+
+        switch (status) {
+          case 422:
+            message = this.$t('default.error.validation')
+            break
+        }
       }
 
       this.$toast.open({
