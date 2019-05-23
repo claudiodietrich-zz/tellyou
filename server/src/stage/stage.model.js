@@ -3,8 +3,7 @@ const mongoose = require('mongoose')
 const stageSchema = new mongoose.Schema({
   number: {
     type: Number,
-    required: true,
-    unique: true
+    required: true
   },
   name: {
     type: String,
