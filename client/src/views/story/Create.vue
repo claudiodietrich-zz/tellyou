@@ -2,11 +2,12 @@
   <section class="section">
     <div class="container">
       <h1 class="title">
-        {{ $t('view.story.create.title') }}
+        {{ $t('default.label.new.female', { arg: $tc('story.label', 1) }) }}
       </h1>
 
       <div class="box">
-        <div v-if="currentStep === 0">
+        <div
+          v-show="currentStep === 0">
           <h1 class="is-size-4 m-b-4">
             {{ $t('view.story.create.form.title.story') }}
           </h1>
@@ -35,7 +36,8 @@
           </b-field>
         </div>
 
-        <div v-show="currentStep === 1">
+        <div
+          v-show="currentStep === 1">
           <h1 class="is-size-4 m-b-4">
             {{ $t('view.story.create.form.title.author') }}
           </h1>
@@ -90,56 +92,58 @@
           </b-field>
         </div>
 
-        <div v-show="currentStep === 2">
+        <div
+          v-show="currentStep === 2">
           <h1 class="is-size-4 m-b-2">
             {{ $t('view.story.create.form.title.archetypes') }}
           </h1>
 
-          <p class="m-b-4" v-html="$t('view.story.create.form.description.archetypes')"/>
+          <p class="m-b-4"
+            v-html="$t('view.story.create.form.description.archetypes')"/>
 
-          <template>
-            <b-table
-              v-bind:data="archetypesTableData"
-              v-bind:checked-rows.sync="archetypes"
-              v-bind:show-detail-icon="true"
-              v-bind:is-row-checkable="(row) => row.required !== true"
-              v-on:check-all="checkAllArchetypes"
-              ref="archetypesTable"
-              checkable
-              detailed>
-              <template
-                slot-scope="props">
-                <b-table-column
-                  v-bind:label="$t('story.archetype')"
-                  field="name"
-                  width="180">
-                  <a v-on:click="$refs.archetypesTable.toggleDetails(props.row)">
-                    {{ props.row.name }}
-                  </a>
-                </b-table-column>
+          <b-table
+            v-bind:data="archetypesTableData"
+            v-bind:checked-rows.sync="archetypes"
+            v-bind:show-detail-icon="true"
+            v-bind:is-row-checkable="(row) => row.required !== true"
+            v-on:check-all="checkAllArchetypes"
+            ref="archetypesTable"
+            checkable
+            detailed>
+            <template
+              slot-scope="props">
+              <b-table-column
+                v-bind:label="$t('story.archetype')"
+                field="name"
+                width="180">
+                <a
+                  v-on:click="$refs.archetypesTable.toggleDetails(props.row)">
+                  {{ props.row.name }}
+                </a>
+              </b-table-column>
 
-                <b-table-column
-                  v-bind:label="$t('story.character')"
-                  field="character">
-                  <b-field
-                    v-bind:type="{ 'is-danger': archetypes.includes(props.row) && props.row.character === '' && !archetypesAreValid }"
-                    v-bind:message="[ archetypes.includes(props.row) && props.row.character === '' && !archetypesAreValid ? $t('default.error.field.is.required'):'']">
-                    <b-input
-                      v-model.trim="props.row.character"/>
-                  </b-field>
-                </b-table-column>
-              </template>
+              <b-table-column
+                v-bind:label="$t('story.character')"
+                field="character">
+                <b-field
+                  v-bind:type="{ 'is-danger': archetypes.includes(props.row) && props.row.character === '' && !archetypesAreValid }"
+                  v-bind:message="[ archetypes.includes(props.row) && props.row.character === '' && !archetypesAreValid ? $t('default.error.field.is.required'):'']">
+                  <b-input
+                    v-model.trim="props.row.character"/>
+                </b-field>
+              </b-table-column>
+            </template>
 
-              <template
-                slot="detail"
-                slot-scope="props">
-                {{ props.row.description }}
-              </template>
-            </b-table>
-          </template>
+            <template
+              slot="detail"
+              slot-scope="props">
+              {{ props.row.description }}
+            </template>
+          </b-table>
         </div>
 
-        <div v-show="currentStep === 3">
+        <div
+          v-show="currentStep === 3">
           <h1 class="is-size-4 m-b-2">
             {{ $t('view.story.create.form.title.stage') }}
           </h1>
@@ -148,101 +152,111 @@
             {{ $t('view.story.create.form.description.stage') }}
           </p>
 
-          <template>
-            <b-table
-              v-bind:data="stagesTableData"
-              v-bind:checked-rows.sync="stages"
-              v-bind:show-detail-icon="true"
-              v-bind:is-row-checkable="(row) => row.required !== true"
-              v-on:check-all="checkAllStages"
-              ref="stagesTable"
-              checkable
-              detailed>
-              <template
-                slot-scope="props">
-                <b-table-column
-                  v-bind:label="$t('stage.number')"
-                  v-bind:numeric="true"
-                  field="number">
-                  {{ props.row.number }}
-                </b-table-column>
+          <b-table
+            v-bind:data="stagesTableData"
+            v-bind:checked-rows.sync="stages"
+            v-bind:show-detail-icon="true"
+            v-bind:is-row-checkable="(row) => row.required !== true"
+            v-on:check-all="checkAllStages"
+            ref="stagesTable"
+            checkable
+            detailed>
+            <template
+              slot-scope="props">
+              <b-table-column
+                v-bind:label="$t('stage.number')"
+                v-bind:numeric="true"
+                field="number">
+                {{ props.row.number }}
+              </b-table-column>
 
-                <b-table-column
-                  v-bind:label="$t('stage.label')"
-                  field="name">
-                  <a v-on:click="$refs.stagesTable.toggleDetails(props.row)">
-                    {{ props.row.name }}
-                  </a>
-                </b-table-column>
+              <b-table-column
+                v-bind:label="$t('stage.label')"
+                field="name">
+                <a
+                 v-on:click="$refs.stagesTable.toggleDetails(props.row)">
+                  {{ props.row.name }}
+                </a>
+              </b-table-column>
 
-                <b-table-column
-                  v-bind:label="$t('stage.description')"
-                  field="description">
-                  {{ props.row.description }}
-                </b-table-column>
-              </template>
+              <b-table-column
+                v-bind:label="$t('stage.description')"
+                field="description">
+                {{ props.row.description }}
+              </b-table-column>
+            </template>
 
-              <template slot="detail" slot-scope="props">
-                <div class="columns">
-                  <div class="column">
-                    <div class="content">
-                      <p>{{ $t('stage.contex') }}</p>
-                      <ul>
-                        <li
-                          v-for="context in props.row.context"
-                          v-bind:key="context">
-                          {{ context }}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="column">
-                    <div class="content">
-                      <p>{{ $t('stage.keyPhrase') }}</p>
-                      <ul>
-                        <li
-                          v-for="keyPhrase in props.row.keyPhrases"
-                          v-bind:key="keyPhrase">
-                          {{ keyPhrase }}
-                        </li>
-                      </ul>
-                    </div>
+            <template
+              slot="detail"
+              slot-scope="props">
+              <div class="columns">
+                <div class="column">
+                  <div class="content">
+                    <p>{{ $t('stage.contex') }}</p>
+                    <ul>
+                      <li
+                        v-for="context in props.row.context"
+                        v-bind:key="context">
+                        {{ context }}
+                      </li>
+                    </ul>
                   </div>
                 </div>
-              </template>
-            </b-table>
-          </template>
+
+                <div class="column">
+                  <div class="content">
+                    <p>{{ $t('stage.keyPhrase') }}</p>
+                    <ul>
+                      <li
+                        v-for="keyPhrase in props.row.keyPhrases"
+                        v-bind:key="keyPhrase">
+                        {{ keyPhrase }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </b-table>
         </div>
 
-        <div class="columns m-t-3">
-          <div class="column">
-            <b-button v-if="currentStep > 0"
-              v-on:click="previousStep"
-              rounded>
-              <vue-fontawesome icon="chevron-left"/>
-              {{ $t('default.label.backward') }}
-            </b-button>
+        <div class="level m-t-3">
+          <div class="level-left">
+            <div class="level-item">
+              <b-button
+                v-if="currentStep > 0"
+                v-on:click="previousStep"
+                rounded>
+                <vue-fontawesome
+                  icon="chevron-left"/>
+                {{ $t('default.label.backward') }}
+              </b-button>
+            </div>
           </div>
 
-          <div class="column is-offset-9 has-text-right">
-            <b-button v-if="currentStep <= 2"
-              v-on:click="nextStep"
-              type="is-primary"
-              rounded>
-              {{ $t('default.label.forward') }}
-              <vue-fontawesome icon="chevron-right"/>
-            </b-button>
-            <b-button v-else
-              v-on:click="register"
-              type="is-primary"
-              rounded>
-              {{ $t('default.label.register') }}
-            </b-button>
+          <div class="level-right">
+            <div class="level-item">
+              <b-button
+                v-if="currentStep <= 2"
+                v-on:click="nextStep"
+                type="is-primary"
+                rounded>
+                {{ $t('default.label.forward') }}
+                <vue-fontawesome
+                icon="chevron-right"/>
+              </b-button>
+
+              <b-button
+                v-else
+                v-on:click="register"
+                type="is-primary"
+                rounded>
+                {{ $t('default.label.register') }}
+              </b-button>
+            </div>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 </template>
@@ -305,7 +319,7 @@ export default {
           this.$router.push({ name: 'storyList' })
         }
       } catch (error) {
-        this.requestErrorHandler(error.response)
+        this.errorHandler(error.response)
       }
     },
     async getUsers (text) {

@@ -12,7 +12,8 @@
           {{ story.title }}
         </p>
         <a class="card-header-icon">
-          <b-icon v-bind:icon="props.open ? 'caret-up' : 'caret-down'"/>
+          <b-icon
+            v-bind:icon="props.open ? 'caret-up' : 'caret-down'"/>
         </a>
       </div>
 

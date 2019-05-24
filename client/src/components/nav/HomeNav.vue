@@ -5,12 +5,12 @@
         <div class="buttons">
           <router-link class="button is-primary is-rounded"
             v-bind:to="{ name: 'singUp' }">
-              {{ $t('component.navbar.button.singUp') }}
+            {{ $t('default.label.singUp') }}
           </router-link>
 
           <router-link class="button is-light is-rounded"
             v-bind:to="{ name: 'singIn' }">
-            {{ $t('component.navbar.button.singIn') }}
+            {{ $t('default.label.singIn') }}
           </router-link>
         </div>
       </div>

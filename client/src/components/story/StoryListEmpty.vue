@@ -15,7 +15,8 @@
       </p>
 
       <div class="has-text-centered m-t-3">
-        <router-link class="button is-primary is-rounded" v-bind:to="{ name: 'storyCreate' }">
+        <router-link class="button is-primary is-rounded"
+          v-bind:to="{ name: 'storyCreate' }">
           {{ $t('default.label.create', { arg: $tc('story.label', 1) }) }}
         </router-link>
       </div>

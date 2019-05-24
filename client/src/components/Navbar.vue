@@ -1,23 +1,24 @@
 <template>
-  <nav v-if="this.$route.matched.some(route => route.meta.hasNavbar)" class="navbar is-fixed-top has-background-secondary" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-fixed-top has-background-secondary" role="navigation" aria-label="main navigation"
+    v-if="this.$route.matched.some(route => route.meta.hasNavbar)">
     <div class="container">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="#">
-        TellYou
-      </a>
+      <div class="navbar-brand">
+        <a class="navbar-item" href="#">
+          TellYou
+        </a>
 
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainNavBar">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainNavBar">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
 
-    <home-nav
-      v-if="!this.$session.exists()"/>
+      <home-nav
+        v-if="!this.$session.exists()"/>
 
-    <user-nav
-      v-if="this.$session.exists()"/>
+      <user-nav
+        v-if="this.$session.exists()"/>
 
     </div>
   </nav>

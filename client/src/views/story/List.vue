@@ -12,7 +12,8 @@
 
         <div class="level-right">
           <div class="level-item">
-            <router-link class="button is-primary is-rounded" v-bind:to="{ name: 'storyCreate' }">
+            <router-link class="button is-primary is-rounded"
+              v-bind:to="{ name: 'storyCreate' }">
               {{ $t('default.label.create', { arg: $tc('story.label', 1) }) }}
             </router-link>
           </div>
@@ -54,7 +55,6 @@
           <story-list-empty
             v-if="stories.length === 0 && !isLoading"
             v-bind:message="$t('view.story.list.empty.stories')"/>
-
         </b-tab-item>
       </b-tabs>
     </div>
@@ -93,7 +93,7 @@ export default {
 
       this.isLoading = false
     } catch (error) {
-      this.requestErrorHandler(error.response)
+      this.errorHandler(error.response)
     }
   }
 }

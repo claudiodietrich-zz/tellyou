@@ -1,17 +1,12 @@
 export default {
-  component: {
-    navbar: {
-      button: {
-        singIn: 'entrar',
-        singUp: 'cadastrar-se'
-      }
-    }
-  },
   default: {
     error: {
       field: {
         is: {
-          invalid: 'ops, este {field} não é válido | ops, está {field} não é válida',
+          invalid: {
+            female: 'ops, esta {field} não é válida | ops, estas {field} não são válidas',
+            male: 'ops, este {field} não é válido | ops, estes {field} não são válidos'
+          },
           required: 'ops, você precisa preencher este campo!'
         }
       },
@@ -34,16 +29,22 @@ export default {
         female: 'minha {arg} | minhas {arg}',
         male: 'meu {arg} | meus {arg}'
       },
+      new: {
+        female: 'nova {arg}',
+        male: 'novo {arg}'
+      },
       list: 'listar {arg}',
       register: 'cadastrar',
+      singIn: 'entrar',
+      singUp: 'cadastrar-se',
       view: 'visualizar'
     }
   },
   story: {
-    label: 'história | histórias',
     archetype: 'arquétipo',
     character: 'personagem',
     revisor: 'revisor',
+    label: 'história | histórias',
     storyteller: 'contador'
   },
   stage: {
@@ -69,7 +70,7 @@ export default {
   view: {
     home: {
       button: {
-        letsStart: 'Vamos começar?'
+        letsStart: 'vamos começar?'
       },
       description: {
         betterResults: {
@@ -96,7 +97,7 @@ export default {
     },
     singIn: {
       hero: {
-        title: 'Que bom que está de volta!'
+        title: 'que bom que está de volta!'
       },
       form: {
         label: {
@@ -110,8 +111,8 @@ export default {
     },
     singUp: {
       hero: {
-        title: 'Que bom que está aqui!',
-        subTitle: 'Nos conte sobre você, queremos te conhecer...'
+        title: 'que bom que está aqui!',
+        subTitle: 'nos conte sobre você, queremos te conhecer...'
       },
       form: {
         label: {
@@ -126,13 +127,12 @@ export default {
     },
     story: {
       create: {
-        title: 'Nova História',
         form: {
           label: {
-            leader: 'O líder irá conduzir o desenvolvimento da narrativa, organizar a história e estimular a participação do grupo.',
+            leader: 'o líder irá conduzir o desenvolvimento da narrativa, organizar a história e estimular a participação do grupo.',
             objective: 'qual o objetivo da história?',
-            revisors: 'Os revisores irão editar a história, formatando e aprimorando o texto, até a sua finalização.',
-            storytellers: 'Os contadores irão narrar cada evento que irá compor a história',
+            revisors: 'os revisores irão editar a história, formatando e aprimorando o texto, até a sua finalização.',
+            storytellers: 'os contadores irão narrar cada evento que irá compor a história',
             title: 'qual o título da história?',
             keywords: 'palavras-chaves ajudam outras pessoas a encontrarem sua história'
           },
@@ -142,14 +142,14 @@ export default {
             storytellers: 'a cada nome digitado, pressione enter'
           },
           title: {
-            archetypes: 'Quais arquétipos serão utilizados?',
-            author: 'Quem serão os autores dessa narrativa?',
-            stage: 'Quais estágios serão utilizados?',
-            story: 'Vamos precisar de algumas insformações...'
+            archetypes: 'quais arquétipos serão utilizados?',
+            author: 'quem serão os autores dessa narrativa?',
+            stage: 'quais estágios serão utilizados?',
+            story: 'vamos precisar de algumas insformações...'
           },
           description: {
-            archetypes: 'Arquétipo é um padrão de personalidade de cada personagem. Deve estar relacionado à sua função/papel dentro da história, visando determinado resultado ou efeito. <br> <small class="has-text-grey">*Arquétipos obrigatórios já vêm selecionados</small>',
-            stage: 'Escolha os estágios que melhor se adaptem ao contexto e ao propósito da história, lembrando que, manter jornadas emocionantes, ajuda a prender a atenção do público. Reordene os estágios conforme a necessidade.'
+            archetypes: 'arquétipo é um padrão de personalidade de cada personagem. Deve estar relacionado à sua função/papel dentro da história, visando determinado resultado ou efeito. <br> <small class="has-text-grey">*arquétipos obrigatórios já vêm selecionados</small>',
+            stage: 'escolha os estágios que melhor se adaptem ao contexto e ao propósito da história, lembrando que, manter jornadas emocionantes, ajuda a prender a atenção do público. Reordene os estágios conforme a necessidade.'
           }
         }
       },

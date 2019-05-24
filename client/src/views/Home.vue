@@ -11,7 +11,9 @@
               <h2 class="subtitle is-size-4-mobile is-size-3-desktop">
                 {{ $t('view.home.hero.subTitle') }}
               </h2>
-              <router-link class="button is-primary is-medium is-rounded" v-bind:class="{'is-outlined': !isMobile}" v-bind:to="{ name: 'singUp' }">
+              <router-link class="button is-primary is-medium is-rounded"
+                v-bind:class="{'is-outlined': !isMobile}"
+                v-bind:to="{ name: 'singUp' }">
                 {{ $t('view.home.button.letsStart') }}
               </router-link>
             </div>
@@ -26,12 +28,16 @@
       </div>
     </section>
 
-    <section class="presentation" v-for="(description, index) in descriptions" v-bind:key="index">
+    <section class="presentation"
+      v-for="(description, index) in descriptions"
+      v-bind:key="index">
       <div class="container">
         <div class="columns is-vcentered">
-          <div class="column is-two-fifths" v-if="index % 2 === 0 || isMobile">
+          <div class="column is-two-fifths"
+            v-if="index % 2 === 0 || isMobile">
             <figure class="image">
-              <img v-bind:src="description.img">
+              <img
+                v-bind:src="description.img">
             </figure>
           </div>
 
@@ -44,9 +50,11 @@
             </p>
           </div>
 
-          <div class="column is-two-fifths" v-if="index % 2 !== 0 && !isMobile">
+          <div class="column is-two-fifths"
+            v-if="index % 2 !== 0 && !isMobile">
             <figure class="image">
-              <img v-bind:src="description.img">
+              <img
+                v-bind:src="description.img">
             </figure>
           </div>
         </div>

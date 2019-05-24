@@ -1,6 +1,6 @@
 export default {
   methods: {
-    requestErrorHandler (error) {
+    errorHandler (error) {
       let message = this.$t('default.error.message')
 
       if (error.status) {

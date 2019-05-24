@@ -1,5 +1,6 @@
 <template>
-  <div id="app" v-bind:class="{ 'has-navbar-fixed-top': this.$route.matched.some(route => route.meta.hasNavbar) }">
+  <div id="app"
+    v-bind:class="{ 'has-navbar-fixed-top': this.$route.matched.some(route => route.meta.hasNavbar) }">
     <navbar/>
     <router-view/>
   </div>
