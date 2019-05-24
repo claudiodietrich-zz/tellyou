@@ -14,6 +14,13 @@ export default {
       this.$session.set('userEmail', user.email)
 
       axios.defaults.headers.common['x-auth'] = token
+    },
+    endSession () {
+      if (this.$session.exists) {
+        this.$session.destroy()
+      }
+
+      this.$router.push({ name: 'home' })
     }
   }
 }

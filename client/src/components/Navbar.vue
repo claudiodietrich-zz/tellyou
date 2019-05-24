@@ -1,5 +1,6 @@
 <template>
   <nav v-if="this.$route.matched.some(route => route.meta.hasNavbar)" class="navbar is-fixed-top has-background-secondary" role="navigation" aria-label="main navigation">
+    <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item" href="#">
         TellYou
@@ -12,28 +13,26 @@
       </a>
     </div>
 
-    <div id="mainNavBar" class="navbar-menu">
-      <div class="navbar-start">
-      </div>
+    <home-nav
+      v-if="!this.$session.exists()"/>
 
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <router-link class="button is-primary is-rounded" v-bind:to="{ name: 'singUp' }">
-              {{ $t('component.navbar.button.singUp') }}
-            </router-link>
-            <router-link class="button is-light is-rounded" v-bind:to="{ name: 'singIn' }">
-              {{ $t('component.navbar.button.singIn') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+    <user-nav
+      v-if="this.$session.exists()"/>
+
     </div>
   </nav>
 </template>
 
 <script>
+
+import HomeNav from '@/components/nav/HomeNav.vue'
+import UserNav from '@/components/nav/UserNav.vue'
+
 export default {
+  components: {
+    HomeNav,
+    UserNav
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

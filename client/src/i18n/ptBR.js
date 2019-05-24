@@ -28,11 +28,13 @@ export default {
       create: 'criar {arg}',
       delete: 'excluir',
       edit: 'editar',
+      exit: 'sair',
       forward: 'avançar',
       my: {
         female: 'minha {arg} | minhas {arg}',
         male: 'meu {arg} | meus {arg}'
       },
+      list: 'listar {arg}',
       register: 'cadastrar',
       view: 'visualizar'
     }
