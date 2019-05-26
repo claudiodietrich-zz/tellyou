@@ -25,6 +25,7 @@ export default {
       edit: 'editar',
       exit: 'sair',
       forward: 'avançar',
+      list: 'listar {arg}',
       my: {
         female: 'minha {arg} | minhas {arg}',
         male: 'meu {arg} | meus {arg}'
@@ -33,7 +34,7 @@ export default {
         female: 'nova {arg}',
         male: 'novo {arg}'
       },
-      list: 'listar {arg}',
+      pageNotFound: 'oops... esta página não foi encontrada',
       register: 'cadastrar',
       singIn: 'entrar',
       singUp: 'cadastrar-se',
@@ -93,6 +94,14 @@ export default {
       hero: {
         title: 'Esta é uma nova forma de compartilhar experiências!',
         subTitle: 'TellYou é uma ferramenta que permite o compartilhamento de lições aprendidas, através de suas atividades em grupo, de forma dinâmica e colaborativa.'
+      }
+    },
+    pageNotFound: {
+      button: {
+        go: {
+          home: 'ir para a página inicial',
+          storyList: 'ir para a lista de histórias'
+        }
       }
     },
     singIn: {

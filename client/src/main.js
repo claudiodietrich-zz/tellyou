@@ -33,11 +33,17 @@ router.beforeEach((to, from, next) => {
   const sessionExists = router.app.$session.exists()
   const requiresSession = to.matched.some(route => route.meta.requiresSession)
 
-  if (requiresSession && !sessionExists) {
-    next({ name: 'home' })
+  if (requiresSession && sessionExists) {
+    next()
   }
 
-  next()
+  if (!requiresSession && !sessionExists) {
+    next()
+  }
+
+  if (to.name === '404') {
+    next()
+  }
 })
 
 new Vue({

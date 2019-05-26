@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import SingUp from './views/SingUp.vue'
 import SingIn from './views/SingIn.vue'
+import NotFoud from './views/404.vue'
 import story from '@/routes/story'
 
 Vue.use(Router)
@@ -16,6 +17,7 @@ export default new Router({
       name: 'home',
       component: Home,
       meta: {
+        requiresSession: false,
         hasNavbar: true
       }
     },
@@ -24,6 +26,7 @@ export default new Router({
       name: 'singUp',
       component: SingUp,
       meta: {
+        requiresSession: false,
         hasNavbar: false
       }
     },
@@ -32,9 +35,24 @@ export default new Router({
       name: 'singIn',
       component: SingIn,
       meta: {
+        requiresSession: false,
         hasNavbar: false
       }
     },
-    story
+    {
+      path: '/404',
+      name: '404',
+      component: NotFoud,
+      meta: {
+        hasNavbar: true
+      }
+    },
+    story,
+    {
+      path: '*',
+      redirect: {
+        name: '404'
+      }
+    }
   ]
 })
