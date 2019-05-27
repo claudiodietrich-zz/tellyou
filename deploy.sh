@@ -13,13 +13,18 @@ git checkout -b heroku
 cd server/
 cp -R * ../
 
+#back to root folder
+cd ../
+
 # build vue and mv dist to root folder
 cd client/
 npm run build
 mv dist/ ../src/public
 
-# remove server and client folders
+#back to root folder
 cd ../
+
+# remove server and client folders
 rm -rf server/ client/
 
 # does the deploy
