@@ -18,6 +18,7 @@ cd ../
 
 # build vue and mv dist to root folder
 cd client/
+npm i
 npm run build
 mv dist/ ../src/public
 
@@ -30,7 +31,7 @@ rm -rf server/ client/
 # does the deploy
 git add --all
 git commit -m 'deploy'
-git push heroku heroku:master
+git push --force heroku heroku:master
 
 # back to branch develop
 git checkout develop
