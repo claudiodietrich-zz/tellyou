@@ -1,6 +1,6 @@
 {
   "name": "tellyou-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Server side of the tellyou app",
   "main": "app.js",
   "scripts": {
