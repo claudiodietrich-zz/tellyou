@@ -22,7 +22,7 @@ Vue.use(VueI18n)
 Vue.use(VueSession, { persist: true })
 
 Vue.config.productionTip = false
-axios.defaults.baseURL = window.location.hostname === 'localhost' ? 'http://localhost:3000/api ' : '/api'
+axios.defaults.baseURL = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api'
 
 const i18n = new VueI18n({
   locale: 'ptBR', // set locale
