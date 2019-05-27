@@ -14,11 +14,12 @@ cd server/
 cp -R * ../
 
 # build vue and mv dist to root folder
-cd client
+cd client/
 npm run build
 mv dist/ ../src/public
 
 # remove server and client folders
+cd ../
 rm -rf server/ client/
 
 # does the deploy
