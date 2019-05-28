@@ -73,6 +73,7 @@ const createValidation = () => {
       .custom(stages => arrayObjectCotainsProperty(stages, 'context')).withMessage('stage must contain a context')
       .custom(stages => arrayObjectCotainsProperty(stages, 'keyPhrases')).withMessage('stage must contain key phrases')
       .custom(stages => arrayObjectCotainsProperty(stages, 'required')).withMessage('stage must contain a required field')
+      .custom(stages => arrayObjectCantCotainsProperty(stages, 'events')).withMessage('stage cant contain events')
       .custom(stages => arrayObjectPropertyIsObjectId(stages, '_id')).withMessage(`stage _id must be a valid Object ID`)
       .custom(stages => arrayObjectPropertyIsTypeof(stages, 'number', 'number')).withMessage('stage number must be a number')
       .custom(stages => arrayObjectPropertyIsTypeof(stages, 'name', 'string')).withMessage('stage name must be a string')
@@ -127,6 +128,19 @@ const arrayObjectCotainsProperty = (array, property) => {
   })
 
   return allItensContainsValue
+}
+
+const arrayObjectCantCotainsProperty = (array, property) => {
+  let allItensNotContainsValue = true
+
+  array.forEach(item => {
+    const containValue = property in item
+    if (containValue) {
+      allItensNotContainsValue = false
+    }
+  })
+
+  return allItensNotContainsValue
 }
 
 const arrayObjectPropertyIsObjectId = (array, property) => {
