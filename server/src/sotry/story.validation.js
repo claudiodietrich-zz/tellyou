@@ -39,47 +39,47 @@ const createValidation = () => {
       .isArray().withMessage(validationMessages.isArray)
       .custom(arrayCantBeEmpty).withMessage(validationMessages.isEmpty)
       .custom(arrayItemIsObject).withMessage('author must be an object')
-      .custom(authors => arraryObjectCotainsProperty(authors, 'user')).withMessage('author must contain a user id')
-      .custom(authors => arraryObjectPropertyIsObjectId(authors, 'user')).withMessage(`user must be a valid Object ID`)
+      .custom(authors => arrayObjectCotainsProperty(authors, 'user')).withMessage('author must contain a user id')
+      .custom(authors => arrayObjectPropertyIsObjectId(authors, 'user')).withMessage(`user must be a valid Object ID`)
       .custom(userIsRegistered).withMessage('user must be registered')
-      .custom(authors => arraryObjectCotainsProperty(authors, 'role')).withMessage(`author must contain a role`)
-      .custom(authors => arraryObjectPropertyIsTypeof(authors, 'role', 'number')).withMessage('author role must be a number')
+      .custom(authors => arrayObjectCotainsProperty(authors, 'role')).withMessage(`author must contain a role`)
+      .custom(authors => arrayObjectPropertyIsTypeof(authors, 'role', 'number')).withMessage('author role must be a number')
       .custom(roleIsValid).withMessage('author role must be a valid role'),
     body('archetypes')
       .exists().withMessage(validationMessages.exists)
       .isArray().withMessage(validationMessages.isArray)
       .custom(arrayCantBeEmpty).withMessage(validationMessages.isEmpty)
       .custom(arrayItemIsObject).withMessage('archetype must be an object')
-      .custom(archetypes => arraryObjectCotainsProperty(archetypes, '_id')).withMessage('archetype must contain a id')
-      .custom(archetypes => arraryObjectCotainsProperty(archetypes, 'name')).withMessage('archetype must contain a name')
-      .custom(archetypes => arraryObjectCotainsProperty(archetypes, 'description')).withMessage('archetype must contain a description')
-      .custom(archetypes => arraryObjectCotainsProperty(archetypes, 'character')).withMessage('archetype must contain a character')
-      .custom(archetypes => arraryObjectCotainsProperty(archetypes, 'required')).withMessage('archetype must contain a required field')
-      .custom(archetypes => arraryObjectPropertyIsObjectId(archetypes, '_id')).withMessage(`archetype _id must be a valid Object ID`)
-      .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'name', 'string')).withMessage('archetype name must be a string')
-      .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'description', 'string')).withMessage('archetype description must be a string')
-      .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'character', 'string')).withMessage('archetype character must be a string')
-      .custom(archetypes => arraryObjectPropertyIsTypeof(archetypes, 'required', 'boolean')).withMessage('archetype required field must be a boolean')
+      .custom(archetypes => arrayObjectCotainsProperty(archetypes, '_id')).withMessage('archetype must contain a id')
+      .custom(archetypes => arrayObjectCotainsProperty(archetypes, 'name')).withMessage('archetype must contain a name')
+      .custom(archetypes => arrayObjectCotainsProperty(archetypes, 'description')).withMessage('archetype must contain a description')
+      .custom(archetypes => arrayObjectCotainsProperty(archetypes, 'character')).withMessage('archetype must contain a character')
+      .custom(archetypes => arrayObjectCotainsProperty(archetypes, 'required')).withMessage('archetype must contain a required field')
+      .custom(archetypes => arrayObjectPropertyIsObjectId(archetypes, '_id')).withMessage(`archetype _id must be a valid Object ID`)
+      .custom(archetypes => arrayObjectPropertyIsTypeof(archetypes, 'name', 'string')).withMessage('archetype name must be a string')
+      .custom(archetypes => arrayObjectPropertyIsTypeof(archetypes, 'description', 'string')).withMessage('archetype description must be a string')
+      .custom(archetypes => arrayObjectPropertyIsTypeof(archetypes, 'character', 'string')).withMessage('archetype character must be a string')
+      .custom(archetypes => arrayObjectPropertyIsTypeof(archetypes, 'required', 'boolean')).withMessage('archetype required field must be a boolean')
       .custom(archetypeIsRegistered).withMessage('archetype must be registered')
       .custom(archetypesHasAllRequiredAarchetype).withMessage('must include all required archetypes'),
     body('stages')
       .exists().withMessage(validationMessages.exists)
       .isArray().withMessage(validationMessages.isArray)
       .custom(arrayCantBeEmpty).withMessage(validationMessages.isEmpty)
-      .custom(stages => arraryObjectCotainsProperty(stages, '_id')).withMessage('stage must contain a id')
-      .custom(stages => arraryObjectCotainsProperty(stages, 'number')).withMessage('stage must contain a number')
-      .custom(stages => arraryObjectCotainsProperty(stages, 'name')).withMessage('stage must contain a name')
-      .custom(stages => arraryObjectCotainsProperty(stages, 'description')).withMessage('stage must contain a description')
-      .custom(stages => arraryObjectCotainsProperty(stages, 'context')).withMessage('stage must contain a context')
-      .custom(stages => arraryObjectCotainsProperty(stages, 'keyPhrases')).withMessage('stage must contain key phrases')
-      .custom(stages => arraryObjectCotainsProperty(stages, 'required')).withMessage('stage must contain a required field')
-      .custom(stages => arraryObjectPropertyIsObjectId(stages, '_id')).withMessage(`stage _id must be a valid Object ID`)
-      .custom(stages => arraryObjectPropertyIsTypeof(stages, 'number', 'number')).withMessage('stage number must be a number')
-      .custom(stages => arraryObjectPropertyIsTypeof(stages, 'name', 'string')).withMessage('stage name must be a string')
-      .custom(stages => arraryObjectPropertyIsTypeof(stages, 'description', 'string')).withMessage('stage description must be a string')
-      .custom(stages => arraryObjectPropertyIsArray(stages, 'context')).withMessage('stage context must be a array')
-      .custom(stages => arraryObjectPropertyIsArray(stages, 'keyPhrases')).withMessage('stage keyPhrases must be a array')
-      .custom(stages => arraryObjectPropertyIsTypeof(stages, 'required', 'boolean')).withMessage('stage required must be a boolean')
+      .custom(stages => arrayObjectCotainsProperty(stages, '_id')).withMessage('stage must contain a id')
+      .custom(stages => arrayObjectCotainsProperty(stages, 'number')).withMessage('stage must contain a number')
+      .custom(stages => arrayObjectCotainsProperty(stages, 'name')).withMessage('stage must contain a name')
+      .custom(stages => arrayObjectCotainsProperty(stages, 'description')).withMessage('stage must contain a description')
+      .custom(stages => arrayObjectCotainsProperty(stages, 'context')).withMessage('stage must contain a context')
+      .custom(stages => arrayObjectCotainsProperty(stages, 'keyPhrases')).withMessage('stage must contain key phrases')
+      .custom(stages => arrayObjectCotainsProperty(stages, 'required')).withMessage('stage must contain a required field')
+      .custom(stages => arrayObjectPropertyIsObjectId(stages, '_id')).withMessage(`stage _id must be a valid Object ID`)
+      .custom(stages => arrayObjectPropertyIsTypeof(stages, 'number', 'number')).withMessage('stage number must be a number')
+      .custom(stages => arrayObjectPropertyIsTypeof(stages, 'name', 'string')).withMessage('stage name must be a string')
+      .custom(stages => arrayObjectPropertyIsTypeof(stages, 'description', 'string')).withMessage('stage description must be a string')
+      .custom(stages => arrayObjectPropertyIsArray(stages, 'context')).withMessage('stage context must be a array')
+      .custom(stages => arrayObjectPropertyIsArray(stages, 'keyPhrases')).withMessage('stage keyPhrases must be a array')
+      .custom(stages => arrayObjectPropertyIsTypeof(stages, 'required', 'boolean')).withMessage('stage required must be a boolean')
       .custom(stageIsRegistered).withMessage('stage must be registered')
       .custom(stagesHasAllRequiredStages).withMessage('must include all required stages')
   ]
@@ -116,7 +116,7 @@ const arrayItemIsObject = array => {
   return allItensAreObjects
 }
 
-const arraryObjectCotainsProperty = (array, property) => {
+const arrayObjectCotainsProperty = (array, property) => {
   let allItensContainsValue = true
 
   array.forEach(item => {
@@ -129,7 +129,7 @@ const arraryObjectCotainsProperty = (array, property) => {
   return allItensContainsValue
 }
 
-const arraryObjectPropertyIsObjectId = (array, property) => {
+const arrayObjectPropertyIsObjectId = (array, property) => {
   let allPropertiesAreObjectsId = true
 
   array.forEach(item => {
@@ -142,7 +142,7 @@ const arraryObjectPropertyIsObjectId = (array, property) => {
   return allPropertiesAreObjectsId
 }
 
-const arraryObjectPropertyIsTypeof = (array, property, type) => {
+const arrayObjectPropertyIsTypeof = (array, property, type) => {
   let allPropertiesAreTypeof = true
 
   array.forEach(item => {
@@ -155,7 +155,7 @@ const arraryObjectPropertyIsTypeof = (array, property, type) => {
   return allPropertiesAreTypeof
 }
 
-const arraryObjectPropertyIsArray = (array, property) => {
+const arrayObjectPropertyIsArray = (array, property) => {
   let allPropertiesAreArray = true
 
   array.forEach(item => {
