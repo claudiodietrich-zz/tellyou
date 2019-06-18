@@ -36,6 +36,16 @@ exports.authenticate = async function (req, res, next) {
   }
 }
 
+exports.findAll = async function (req, res, next) {
+  try {
+    const users = await User.find({})
+
+    res.status(200).json(users)
+  } catch (error) {
+    next(error)
+  }
+}
+
 exports.findByEmail = async function (req, res, next) {
   try {
     validationHandler(req)

@@ -59,6 +59,7 @@
               v-on:add="addReviewer"
               v-on:remove="removeAuthor"
               v-bind:allow-new="false"
+              v-bind:open-on-focus="true"
               v-bind:placeholder="$t('default.label.add', { arg: $t('story.revisor') })"
               field="name"
               type="is-primary"
@@ -80,6 +81,7 @@
               v-on:add="addStoryteller"
               v-on:remove="removeAuthor"
               v-bind:allow-new="false"
+              v-bind:open-on-focus="true"
               v-bind:placeholder="$t('default.label.add', { arg: $t('story.storyteller') })"
               field="name"
               type="is-primary"
@@ -323,17 +325,16 @@ export default {
       }
     },
     async getUsers (text) {
-      if (text.length >= 3) {
-        try {
-          const response = await axios.get(`/users/name/${text}`)
-          const users = response.data
+      try {
+        const url = text.length > 0 ? `/users/name/${text}` : '/users'
+        const response = await axios.get(url)
+        const users = response.data
 
-          this.filteredUsers = users.filter(user => {
-            return !this.authors.some(author => author.user === user._id)
-          })
-        } catch (error) {
-          this.userList = []
-        }
+        this.filteredUsers = users.filter(user => {
+          return !this.authors.some(author => author.user === user._id)
+        })
+      } catch (error) {
+        this.userList = []
       }
     },
     addReviewer (reviewer) {
@@ -401,6 +402,13 @@ export default {
 
       this.stages = this.stagesTableData.filter(stage => {
         return stage.required === true
+      })
+
+      const usersResponse = await axios.get(`/users`)
+      const users = usersResponse.data
+
+      this.filteredUsers = users.filter(user => {
+        return !this.authors.some(author => author.user === user._id)
       })
     } catch (error) {
       console.log(error)
