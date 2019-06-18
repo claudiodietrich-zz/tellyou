@@ -16,14 +16,14 @@ app.use(bodyParser.json())
 app.use(expressValidator())
 app.use(cors())
 
-// serve vue as front-end
-app.use(history())
-app.use('/', express.static(path.join(__dirname, 'public')))
-
 app.use('/api/users', require('./user/user.routes'))
 app.use('/api/stories', require('./sotry/story.routes'))
 app.use('/api/archetypes', require('./archetype/archetype.routes'))
 app.use('/api/stages', require('./stage/stage.routes'))
+
+// serve vue as front-end
+app.use(history())
+app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500
