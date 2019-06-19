@@ -44,8 +44,16 @@ export default {
   story: {
     archetype: 'arquétipo',
     character: 'personagem',
-    revisor: 'revisor',
     label: 'história | histórias',
+    objective: 'objetivo',
+    revisor: 'revisor',
+    stages: 'estágios',
+    status: {
+      created: 'em desenvolvimento',
+      inReview: 'em revisão',
+      revised: 'revisada',
+      finished: 'finalizada'
+    },
     storyteller: 'contador'
   },
   stage: {
@@ -93,7 +101,7 @@ export default {
       },
       hero: {
         title: 'Esta é uma nova forma de compartilhar experiências!',
-        subTitle: 'TellYou é uma ferramenta que permite o compartilhamento de lições aprendidas, através de suas atividades em grupo, de forma dinâmica e colaborativa.'
+        subTitle: 'TellYou é uma ferramenta que permite o compartilhamento de lições aprendidas, sobre atividades em grupo, de forma dinâmica e colaborativa.'
       }
     },
     pageNotFound: {
@@ -121,16 +129,16 @@ export default {
     singUp: {
       hero: {
         title: 'que bom que está aqui!',
-        subTitle: 'nos conte sobre você, queremos te conhecer...'
+        subTitle: 'conte pra gente sobre você, queremos te conhecer...'
       },
       form: {
         label: {
-          name: 'nos diga seu nome',
+          name: 'diga o seu nome',
           email: 'qual o seu e-mail?',
           password: 'agora, crie uma senha super secreta'
         },
         button: {
-          singUp: 'pronto, enviar minhas informações'
+          singUp: 'pronto! envie minhas informações'
         }
       }
     },
@@ -141,7 +149,7 @@ export default {
             leader: 'o líder irá conduzir o desenvolvimento da narrativa, organizar a história e estimular a participação do grupo.',
             objective: 'qual o objetivo da história?',
             revisors: 'os revisores irão editar a história, formatando e aprimorando o texto, até a sua finalização.',
-            storytellers: 'os contadores irão narrar cada evento que irá compor a história',
+            storytellers: 'os contadores irão narrar cada evento que irá compor a história.',
             title: 'qual o título da história?',
             keywords: 'palavras-chaves ajudam outras pessoas a encontrarem sua história'
           },
@@ -165,7 +173,7 @@ export default {
       list: {
         empty: {
           user: {
-            stories: 'oops... parace que você ainda não tem nenhuma história'
+            stories: 'oops... parece que você ainda não tem nenhuma história!'
           },
           stories: 'oops... parace que ainda não temos nenhuma história cadastrada'
         }

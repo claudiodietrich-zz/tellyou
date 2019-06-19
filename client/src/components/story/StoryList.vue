@@ -35,9 +35,11 @@
       </div>
 
       <footer class="card-footer">
-        <a href="#" class="card-footer-item has-background-primary has-text-white">
+        <router-link
+          class="card-footer-item has-background-primary has-text-white"
+          v-bind:to="{ name: 'storyView', params: { storyId: story._id }}">
           {{ $t('default.label.view') }}
-        </a>
+        </router-link>
 
         <a href="#" class="card-footer-item has-background-primary has-text-white"
           v-if="isLeader(story.authors)">

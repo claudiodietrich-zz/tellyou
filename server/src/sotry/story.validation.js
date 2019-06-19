@@ -16,6 +16,10 @@ exports.validate = method => {
     case 'findAllByUser': {
       return findAllByUserValidation()
     }
+
+    case 'findById': {
+      return findById()
+    }
   }
 }
 
@@ -73,7 +77,7 @@ const createValidation = () => {
       .custom(stages => arrayObjectCotainsProperty(stages, 'context')).withMessage('stage must contain a context')
       .custom(stages => arrayObjectCotainsProperty(stages, 'keyPhrases')).withMessage('stage must contain key phrases')
       .custom(stages => arrayObjectCotainsProperty(stages, 'required')).withMessage('stage must contain a required field')
-      .custom(stages => arrayObjectCantCotainsProperty(stages, 'events')).withMessage('stage cant contain events')
+      .custom(stages => arrayObjectArrayMustBeEmpty(stages, 'events')).withMessage('stage cant contain events')
       .custom(stages => arrayObjectPropertyIsObjectId(stages, '_id')).withMessage(`stage _id must be a valid Object ID`)
       .custom(stages => arrayObjectPropertyIsTypeof(stages, 'number', 'number')).withMessage('stage number must be a number')
       .custom(stages => arrayObjectPropertyIsTypeof(stages, 'name', 'string')).withMessage('stage name must be a string')
@@ -89,6 +93,16 @@ const createValidation = () => {
 const findAllByUserValidation = () => {
   return [
     param('userId')
+      .exists().withMessage(validationMessages.exists)
+      .isString().withMessage(validationMessages.isString)
+      .custom(isObjectId).withMessage(validationMessages.isObjetcId)
+      .trim()
+  ]
+}
+
+const findById = () => {
+  return [
+    param('storyId')
       .exists().withMessage(validationMessages.exists)
       .isString().withMessage(validationMessages.isString)
       .custom(isObjectId).withMessage(validationMessages.isObjetcId)
@@ -130,17 +144,17 @@ const arrayObjectCotainsProperty = (array, property) => {
   return allItensContainsValue
 }
 
-const arrayObjectCantCotainsProperty = (array, property) => {
-  let allItensNotContainsValue = true
+const arrayObjectArrayMustBeEmpty = (array, property) => {
+  let allItensAreEmpty = true
 
   array.forEach(item => {
-    const containValue = property in item
-    if (containValue) {
-      allItensNotContainsValue = false
+    const isEmpty = item[property].length === 0
+    if (!isEmpty) {
+      allItensAreEmpty = false
     }
   })
 
-  return allItensNotContainsValue
+  return allItensAreEmpty
 }
 
 const arrayObjectPropertyIsObjectId = (array, property) => {
