@@ -42,6 +42,10 @@ router.beforeEach((to, from, next) => {
     next()
   }
 
+  if (!requiresSession && sessionExists) {
+    next({ name: 'storyList' })
+  }
+
   if (to.name === '404') {
     next()
   }
