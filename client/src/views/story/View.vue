@@ -33,9 +33,11 @@
               animated
               multilined>
               <div class="timeline-content">
-                <p class="heading">
+                <router-link
+                  class="heading"
+                  v-bind:to="{ name: 'stageView', params: { storyId: story._id, stageId: stage._id } }">
                   {{ `${stage.number} - ${stage.name}` }}
-                </p>
+                </router-link>
               </div>
             </b-tooltip>
           </div>
@@ -46,7 +48,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import errorMixin from '@/mixins/error'
 import StatusTag from '@/components/story/StatusTag.vue'
 
@@ -55,17 +56,16 @@ export default {
   components: {
     StatusTag
   },
-  data () {
-    return {
-      story: {}
+  computed: {
+    story () {
+      return this.$store.state.story.story
     }
   },
   async beforeCreate () {
     try {
       const storyId = this.$route.params.storyId
-      const response = await axios.get(`/stories/${storyId}`)
 
-      this.story = response.data
+      await this.$store.dispatch('story/findById', storyId)
     } catch (error) {
       this.errorHandler(error.response)
     }
