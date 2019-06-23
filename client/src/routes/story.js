@@ -16,6 +16,11 @@ export default {
       path: 'create',
       name: 'storyCreate',
       component: () => import(/* webpackChunkName: "story" */ '@/views/story/Create.vue')
+    },
+    {
+      path: ':storyId',
+      name: 'storyView',
+      component: () => import(/* webpackChunkName: "story" */ '@/views/story/View.vue')
     }
   ]
 }

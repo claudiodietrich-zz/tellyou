@@ -5,6 +5,7 @@ const sotryValidation = require('./story.validation')
 router.post('/', sotryValidation.validate('create'), storyController.create)
 
 router.get('/', storyController.findAll)
+router.get('/:storyId', sotryValidation.validate('findById'), storyController.findById)
 router.get('/user/:userId', sotryValidation.validate('findAllByUser'), storyController.findAllByUser)
 
 module.exports = router

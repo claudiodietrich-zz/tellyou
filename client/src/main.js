@@ -11,6 +11,7 @@ import VueSession from 'vue-session'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheck, faCheckCircle, faInfoCircle, faExclamationTriangle, faExclamationCircle, faArrowUp, faAngleRight, faAngleLeft, faAngleDown, faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import 'bulma-timeline/dist/css/bulma-timeline.min.css'
 
 library.add(faCheck, faCheckCircle, faInfoCircle, faExclamationTriangle, faExclamationCircle, faArrowUp, faAngleRight, faAngleLeft, faAngleDown, faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload, faChevronLeft, faChevronRight)
 
@@ -39,6 +40,10 @@ router.beforeEach((to, from, next) => {
 
   if (!requiresSession && !sessionExists) {
     next()
+  }
+
+  if (!requiresSession && sessionExists) {
+    next({ name: 'storyList' })
   }
 
   if (to.name === '404') {

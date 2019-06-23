@@ -25,6 +25,20 @@ module.exports.findAll = async function (req, res, next) {
   }
 }
 
+module.exports.findById = async function (req, res, next) {
+  try {
+    validationHandler(req)
+
+    const id = req.params.storyId
+
+    const stories = await Story.findById(id)
+
+    res.status(200).json(stories)
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports.findAllByUser = async function (req, res, next) {
   try {
     validationHandler(req)

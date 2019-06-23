@@ -5,6 +5,7 @@ import SingUp from './views/SingUp.vue'
 import SingIn from './views/SingIn.vue'
 import NotFoud from './views/404.vue'
 import story from '@/routes/story'
+import stage from '@/routes/stage'
 
 Vue.use(Router)
 
@@ -48,6 +49,7 @@ export default new Router({
       }
     },
     story,
+    stage,
     {
       path: '*',
       redirect: {
