@@ -28,52 +28,105 @@
         </div>
       </div>
     </div>
+
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h1 class="is-size-4 m-b-4">
+            {{ $tc('stage.event', 0) }}
+          </h1>
+
+          <b-field
+            v-if="hasNewEvent"
+            v-bind:label="$t('default.label.new.male', { arg: $tc('stage.event', 1) })"
+            v-bind:type="{ 'is-danger': $v.event.$error }"
+            v-bind:message="[ !$v.event.body.required && $v.event.body.$error ? $t('default.error.field.is.required'):'' ]">
+            <b-input
+              v-model="event.body"
+              type="textarea"/>
+          </b-field>
+
+          <div class="has-text-centered">
+            <b-button
+            v-if="!hasNewEvent"
+            v-on:click="hasNewEvent = true"
+            type="is-primary"
+            rounded>
+            {{ $t('default.label.new.male', { arg: $tc('stage.event', 1) }) }}
+          </b-button>
+
+          <b-button
+            v-if="hasNewEvent"
+            v-on:click="addEvent"
+            type="is-primary"
+            rounded>
+            {{ $t('default.label.add', { arg: $tc('stage.event', 1) }) }}
+          </b-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import errorMixin from '@/mixins/error'
 
 export default {
   mixins: [ errorMixin ],
   data () {
     return {
-      stage: {}
+      hasNewEvent: false,
+      event: {
+        number: 0,
+        author: this.$session.get('userId'),
+        body: ''
+      }
+    }
+  },
+  validations: {
+    event: {
+      body: {
+        required
+      }
+    }
+  },
+  computed: {
+    stage () {
+      const stageId = this.$route.params.stageId
+      const stages = this.$store.state.story.story.stages
+
+      return stages ? stages.filter(stage => stage._id === stageId)[0] : {}
     }
   },
   methods: {
-    async getStory () {
+    async addEvent () {
       try {
-        if (!this.$store.state.story.story._id) {
-          const storyId = this.$route.params.storyId
+        this.$v.$touch()
 
-          await this.$store.dispatch('story/findById', storyId)
+        if (!this.$v.$invalid) {
+          await this.$store.dispatch('story/addEvent', {
+            storyId: this.$store.state.story.story._id,
+            stageId: this.stage._id,
+            event: this.event
+          })
+
+          this.event.body = ''
+          this.hasNewEvent = false
+          this.$v.$reset()
         }
-      } catch (error) {
-        this.errorHandler(error)
-      }
-    },
-    getStage () {
-      try {
-        const stageId = this.$route.params.stageId
-
-        const stage = this.$store.state.story.story.stages.filter(stage => stage._id === stageId)[0]
-
-        if (!stage) {
-          throw new Error('deu ruim')
-        }
-
-        return stage
       } catch (error) {
         this.errorHandler(error)
       }
     }
   },
-  async beforeMount () {
+  async beforeCreate () {
     try {
-      await this.getStory()
+      const storyId = this.$route.params.storyId
 
-      this.stage = this.getStage()
+      await this.$store.dispatch('story/findById', storyId)
     } catch (error) {
       this.errorHandler(error.response)
     }

@@ -56,3 +56,30 @@ module.exports.findAllByUser = async function (req, res, next) {
     next(error)
   }
 }
+
+exports.creteEvent = async function (req, res, next) {
+  try {
+    const storyId = req.params.storyId
+    const stageId = req.params.stageId
+    const event = req.body.event
+
+    const story = await Story.findById(storyId)
+
+    story.stages.forEach(stage => {
+      if (stage.id === stageId) {
+        const lastEvent = stage.events[stage.events.length - 1]
+        const eventNumber = lastEvent !== undefined ? lastEvent.number + 1 : 1
+
+        event.number = eventNumber
+
+        stage.events.push(event)
+      }
+    })
+
+    await story.save()
+
+    res.status(200).json(story)
+  } catch (error) {
+    next(error)
+  }
+}
