@@ -36,6 +36,31 @@
             {{ $tc('stage.event', 0) }}
           </h1>
 
+          <draggable
+            v-model="stage.events"
+            v-on:end="updateEvents">
+            <transition-group>
+              <div
+                class="card m-b-4"
+                v-for="event in stage.events"
+                v-bind:key="event._id">
+                <div class="card-content">
+                  <div class="content">
+                    {{ event.body }}
+                    <div class="is-size-7 has-text-right">
+                      {{ event.author.name }}
+                    </div>
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  <a href="#" class="card-footer-item">Save</a>
+                  <a href="#" class="card-footer-item">Edit</a>
+                  <a href="#" class="card-footer-item">Delete</a>
+                </footer>
+              </div>
+            </transition-group>
+          </draggable>
+
           <b-field
             v-if="hasNewEvent"
             v-bind:label="$t('default.label.new.male', { arg: $tc('stage.event', 1) })"
@@ -72,10 +97,14 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
+import draggable from 'vuedraggable'
 import errorMixin from '@/mixins/error'
 
 export default {
   mixins: [ errorMixin ],
+  components: {
+    draggable
+  },
   data () {
     return {
       hasNewEvent: false,
@@ -117,6 +146,17 @@ export default {
           this.hasNewEvent = false
           this.$v.$reset()
         }
+      } catch (error) {
+        this.errorHandler(error)
+      }
+    },
+    async updateEvents () {
+      try {
+        await this.$store.dispatch('story/updateEvents', {
+          storyId: this.$store.state.story.story._id,
+          stageId: this.stage._id,
+          events: this.stage.events
+        })
       } catch (error) {
         this.errorHandler(error)
       }

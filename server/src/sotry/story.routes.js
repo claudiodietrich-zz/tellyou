@@ -6,6 +6,9 @@ router.post('/', sotryValidation.validate('create'), storyController.create)
 // todo: add validation
 router.post('/:storyId/stages/:stageId/events', storyController.creteEvent)
 
+// todo: add validation
+router.put('/:storyId/stages/:stageId/events', storyController.updateEvents)
+
 router.get('/', storyController.findAll)
 router.get('/:storyId', sotryValidation.validate('findById'), storyController.findById)
 router.get('/user/:userId', sotryValidation.validate('findAllByUser'), storyController.findAllByUser)
