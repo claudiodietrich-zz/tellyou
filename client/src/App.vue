@@ -1,6 +1,8 @@
 <template>
-  <div id="app"
+  <div
+    id="app"
     v-bind:class="{ 'has-navbar-fixed-top': this.$route.matched.some(route => route.meta.hasNavbar) }">
+    <b-loading v-bind:active.sync="this.$store.state.loading.isActive"/>
     <navbar/>
     <router-view/>
   </div>

@@ -20,9 +20,10 @@ export default {
         male: 'todos os {arg}'
       },
       backward: 'voltar',
+      close: 'fechar',
       create: 'criar {arg}',
       delete: 'excluir',
-      edit: 'editar',
+      edit: 'editar {arg}',
       exit: 'sair',
       forward: 'avançar',
       list: 'listar {arg}',
@@ -36,6 +37,7 @@ export default {
       },
       pageNotFound: 'oops... esta página não foi encontrada',
       register: 'cadastrar',
+      save: 'salvar',
       singIn: 'entrar',
       singUp: 'cadastrar-se',
       view: 'visualizar'
@@ -59,6 +61,7 @@ export default {
   stage: {
     contex: 'contexto',
     description: 'descrição',
+    event: 'evento | eventos',
     keyPhrase: 'palaras-chave',
     label: 'estágio',
     number: 'nº'
