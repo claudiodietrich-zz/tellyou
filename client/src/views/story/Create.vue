@@ -316,7 +316,11 @@ export default {
     async register () {
       try {
         if (!this.$v.$invalid && this.archetypesAreValid && this.currentStep === 3) {
+          this.$store.dispatch('loading/activate')
+
           await axios.post('/stories', { title: this.title, objective: this.objective, keywords: this.keywords, authors: this.authors, archetypes: this.archetypes, stages: this.stages })
+
+          this.$store.dispatch('loading/deactivate')
 
           this.$router.push({ name: 'storyList' })
         }

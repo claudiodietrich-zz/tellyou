@@ -1,6 +1,8 @@
 export default {
   methods: {
     errorHandler (error) {
+      this.$store.dispatch('loading/deactivate')
+
       let message = this.$t('default.error.message')
 
       if (error.status) {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="stage._id">
     <h1 class="title">
       {{ `${stage.number} - ${stage.name}` }}
     </h1>
@@ -136,6 +136,8 @@ export default {
         this.$v.$touch()
 
         if (!this.$v.$invalid) {
+          this.$store.dispatch('loading/activate')
+
           await this.$store.dispatch('story/addEvent', {
             storyId: this.$store.state.story.story._id,
             stageId: this.stage._id,
@@ -145,6 +147,8 @@ export default {
           this.event.body = ''
           this.hasNewEvent = false
           this.$v.$reset()
+
+          this.$store.dispatch('loading/deactivate')
         }
       } catch (error) {
         this.errorHandler(error)
@@ -152,11 +156,13 @@ export default {
     },
     async updateEvents () {
       try {
+        this.$store.dispatch('loading/activate')
         await this.$store.dispatch('story/updateEvents', {
           storyId: this.$store.state.story.story._id,
           stageId: this.stage._id,
           events: this.stage.events
         })
+        this.$store.dispatch('loading/deactivate')
       } catch (error) {
         this.errorHandler(error)
       }
