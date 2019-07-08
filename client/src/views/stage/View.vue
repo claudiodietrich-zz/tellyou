@@ -53,9 +53,19 @@
                   </div>
                 </div>
                 <footer class="card-footer">
-                  <a href="#" class="card-footer-item">Save</a>
-                  <a href="#" class="card-footer-item">Edit</a>
-                  <a href="#" class="card-footer-item">Delete</a>
+                  <a
+                    href="#"
+                    class="card-footer-item has-background-primary has-text-white"
+                    v-on:click="openEditEventModal(event)">
+                    {{ $t('default.label.edit', { arg: '' }) }}
+                  </a>
+
+                  <a
+                    href="#"
+                    class="card-footer-item has-background-danger has-text-white"
+                    v-on:click.prevent="deleteEvent(event._id)">
+                    {{ $t('default.label.delete') }}
+                  </a>
                 </footer>
               </div>
             </transition-group>
@@ -74,7 +84,7 @@
           <div class="has-text-centered">
             <b-button
             v-if="!hasNewEvent"
-            v-on:click="hasNewEvent = true"
+            v-on:click="() => {hasNewEvent = true, event.body = ''} "
             type="is-primary"
             rounded>
             {{ $t('default.label.new.male', { arg: $tc('stage.event', 1) }) }}
@@ -92,6 +102,9 @@
       </div>
     </div>
 
+    <b-modal v-bind:active.sync="isEditEventModalActive" has-modal-card>
+      <story-edit-event-modal v-bind:event="eventToBeUpdated"/>
+    </b-modal>
   </div>
 </template>
 
@@ -99,15 +112,19 @@
 import { required } from 'vuelidate/lib/validators'
 import draggable from 'vuedraggable'
 import errorMixin from '@/mixins/error'
+import StoryEditEventModal from '@/components/story/StoryEditEventModal.vue'
 
 export default {
   mixins: [ errorMixin ],
   components: {
-    draggable
+    draggable,
+    StoryEditEventModal
   },
   data () {
     return {
       hasNewEvent: false,
+      isEditEventModalActive: false,
+      eventToBeUpdated: {},
       event: {
         number: 0,
         author: this.$session.get('userId'),
@@ -156,12 +173,36 @@ export default {
     },
     async updateEvents () {
       try {
+        this.hasNewEvent = false
         this.$store.dispatch('loading/activate')
+
         await this.$store.dispatch('story/updateEvents', {
           storyId: this.$store.state.story.story._id,
           stageId: this.stage._id,
           events: this.stage.events
         })
+
+        this.$store.dispatch('loading/deactivate')
+      } catch (error) {
+        this.errorHandler(error)
+      }
+    },
+    openEditEventModal (event) {
+      this.hasNewEvent = false
+      this.eventToBeUpdated = event
+      this.isEditEventModalActive = true
+    },
+    async deleteEvent (eventId) {
+      try {
+        this.hasNewEvent = false
+        this.$store.dispatch('loading/activate')
+
+        await this.$store.dispatch('story/deleteEvent', {
+          storyId: this.$store.state.story.story._id,
+          stageId: this.stage._id,
+          eventId: eventId
+        })
+
         this.$store.dispatch('loading/deactivate')
       } catch (error) {
         this.errorHandler(error)

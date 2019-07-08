@@ -41,6 +41,24 @@ export default {
       } catch (error) {
         throw error
       }
+    },
+    async updateEvent ({ commit }, { storyId, stageId, event }) {
+      try {
+        const response = await axios.put(`/stories/${storyId}/stages/${stageId}/events/${event._id}`, { event })
+
+        commit('update', response.data)
+      } catch (error) {
+        throw error
+      }
+    },
+    async deleteEvent ({ commit }, { storyId, stageId, eventId }) {
+      try {
+        const response = await axios.delete(`/stories/${storyId}/stages/${stageId}/events/${eventId}`)
+
+        commit('update', response.data)
+      } catch (error) {
+        throw error
+      }
     }
   }
 }

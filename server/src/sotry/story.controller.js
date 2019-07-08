@@ -107,6 +107,54 @@ exports.updateEvents = async function (req, res, next) {
   }
 }
 
+exports.updateEvent = async function (req, res, next) {
+  console.log('updateEvent')
+  try {
+    const { storyId, stageId } = req.params
+    const event = req.body.event
+
+    const story = await Story.findById(storyId).populate('stages.events.author')
+
+    story.stages.forEach(stage => {
+      if (stage.id === stageId) {
+        const eventIndex = stage.events.map(event => { return event.id }).indexOf(event._id)
+        stage.events.splice(eventIndex, 1)
+        stage.events.splice(eventIndex, 0, event)
+        updateEventsNumbers(stage)
+      }
+    })
+
+    await story.save()
+
+    res.status(200).json(story)
+  } catch (error) {
+    next(error)
+  }
+}
+
+exports.deleteEvent = async function (req, res, next) {
+  try {
+    const { storyId, stageId, eventId } = req.params
+
+    const story = await Story.findById(storyId).populate('stages.events.author')
+
+    story.stages.forEach(stage => {
+      if (stage.id === stageId) {
+        stage.events = stage.events.filter(event => {
+          return event.id !== eventId
+        })
+        updateEventsNumbers(stage)
+      }
+    })
+
+    await story.save()
+
+    res.status(200).json(story)
+  } catch (error) {
+    next(error)
+  }
+}
+
 function updateEventsNumbers (stage) {
   stage.events.forEach((event, index) => {
     event.number = index + 1
