@@ -2,7 +2,7 @@
   <div class="modal-card">
     <header class="modal-card-head">
       <p class="modal-card-title">
-        {{ $t('default.label.edit', { arg: $tc('stage.event', 1) }) }}
+        {{ $t('default.label.edit', { arg: $tc('stage.event.label', 1) }) }}
       </p>
     </header>
 

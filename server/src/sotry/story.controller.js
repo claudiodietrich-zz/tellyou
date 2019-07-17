@@ -31,7 +31,7 @@ module.exports.findById = async function (req, res, next) {
 
     const id = req.params.storyId
 
-    const story = await Story.findById(id).populate('stages.events.author')
+    const story = await Story.findById(id).populate('stages.events.author').populate('stages.events.comments.author')
 
     res.status(200).json(story)
   } catch (error) {
@@ -63,7 +63,7 @@ exports.creteEvent = async function (req, res, next) {
     const stageId = req.params.stageId
     const event = req.body.event
 
-    const story = await Story.findById(storyId).populate('stages.events.author')
+    const story = await Story.findById(storyId)
 
     story.stages.forEach(stage => {
       if (stage.id === stageId) {
@@ -78,6 +78,8 @@ exports.creteEvent = async function (req, res, next) {
 
     await story.save()
 
+    await story.populate('stages.events.author').populate('stages.events.comments.author').execPopulate()
+
     res.status(200).json(story)
   } catch (error) {
     next(error)
@@ -90,7 +92,7 @@ exports.updateEvents = async function (req, res, next) {
     const stageId = req.params.stageId
     const events = req.body.events
 
-    const story = await Story.findById(storyId).populate('stages.events.author')
+    const story = await Story.findById(storyId)
 
     story.stages.forEach(stage => {
       if (stage.id === stageId) {
@@ -100,6 +102,8 @@ exports.updateEvents = async function (req, res, next) {
     })
 
     await story.save()
+
+    await story.populate('stages.events.author').populate('stages.events.comments.author').execPopulate()
 
     res.status(200).json(story)
   } catch (error) {
@@ -113,7 +117,7 @@ exports.updateEvent = async function (req, res, next) {
     const { storyId, stageId } = req.params
     const event = req.body.event
 
-    const story = await Story.findById(storyId).populate('stages.events.author')
+    const story = await Story.findById(storyId)
 
     story.stages.forEach(stage => {
       if (stage.id === stageId) {
@@ -126,6 +130,8 @@ exports.updateEvent = async function (req, res, next) {
 
     await story.save()
 
+    await story.populate('stages.events.author').populate('stages.events.comments.author').execPopulate()
+
     res.status(200).json(story)
   } catch (error) {
     next(error)
@@ -136,7 +142,7 @@ exports.deleteEvent = async function (req, res, next) {
   try {
     const { storyId, stageId, eventId } = req.params
 
-    const story = await Story.findById(storyId).populate('stages.events.author')
+    const story = await Story.findById(storyId)
 
     story.stages.forEach(stage => {
       if (stage.id === stageId) {
@@ -149,6 +155,8 @@ exports.deleteEvent = async function (req, res, next) {
 
     await story.save()
 
+    await story.populate('stages.events.author').populate('stages.events.comments.author').execPopulate()
+
     res.status(200).json(story)
   } catch (error) {
     next(error)
@@ -159,4 +167,33 @@ function updateEventsNumbers (stage) {
   stage.events.forEach((event, index) => {
     event.number = index + 1
   })
+}
+
+exports.creteComment = async function (req, res, next) {
+  try {
+    const { storyId, stageId, eventId } = req.params
+    const comment = req.body.comment
+
+    const story = await Story.findById(storyId)
+
+    story.stages.forEach(stage => {
+      if (stage.id === stageId) {
+        stage.events.forEach(event => {
+          if (event.id === eventId) {
+            comment.dateCreated = new Date()
+
+            event.comments.push(comment)
+          }
+        })
+      }
+    })
+
+    await story.save()
+
+    await story.populate('stages.events.author').populate('stages.events.comments.author').execPopulate()
+
+    res.status(200).json(story)
+  } catch (error) {
+    next(error)
+  }
 }
