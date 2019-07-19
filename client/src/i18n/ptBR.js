@@ -61,7 +61,10 @@ export default {
   stage: {
     contex: 'contexto',
     description: 'descrição',
-    event: 'evento | eventos',
+    event: {
+      comment: 'comentário | comentários',
+      label: 'evento | eventos'
+    },
     keyPhrase: 'palaras-chave',
     label: 'estágio',
     number: 'nº'

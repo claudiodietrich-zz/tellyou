@@ -5,6 +5,8 @@ const sotryValidation = require('./story.validation')
 router.post('/', sotryValidation.validate('create'), storyController.create)
 // todo: add validation
 router.post('/:storyId/stages/:stageId/events', storyController.creteEvent)
+// todo: add validation
+router.post('/:storyId/stages/:stageId/events/:eventId/comments', storyController.creteComment)
 
 // todo: add validation
 router.put('/:storyId/stages/:stageId/events', storyController.updateEvents)

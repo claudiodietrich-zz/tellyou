@@ -33,7 +33,7 @@
       <div class="column">
         <div class="content">
           <h1 class="is-size-4 m-b-4">
-            {{ $tc('stage.event', 0) }}
+            {{ $tc('stage.event.label', 0) }}
           </h1>
 
           <draggable
@@ -56,6 +56,15 @@
                   <a
                     href="#"
                     class="card-footer-item has-background-primary has-text-white"
+                    data-show="quickview"
+                    v-bind:data-target="`comments-event-${event._id}`"
+                    v-on:click.prevent="">
+                    {{ $tc('stage.event.comment', 0) }}
+                  </a>
+
+                  <a
+                    href="#"
+                    class="card-footer-item has-background-primary has-text-white"
                     v-on:click="openEditEventModal(event)">
                     {{ $t('default.label.edit', { arg: '' }) }}
                   </a>
@@ -67,13 +76,53 @@
                     {{ $t('default.label.delete') }}
                   </a>
                 </footer>
+
+                <div v-bind:id="`comments-event-${event._id}`" class="quickview">
+                  <header class="quickview-header m-b-3">
+                    <p class="title">
+                      {{ $tc('stage.event.comment', 0) }}
+                    </p>
+                    <span class="delete" data-dismiss="quickview"></span>
+                  </header>
+
+                  <div class="quickview-body">
+                    <div class="quickview-block">
+                      <p
+                      class="box"
+                      v-for="comment in event.comments"
+                      v-bind:key="comment._id"
+                      v-bind:class="[
+                      comment.author._id === $session.get('userId') ? 'has-background-primary' : 'has-background-secondary',
+                      comment.author._id === $session.get('userId') ? 'm-l-6' : 'm-l-3',
+                      comment.author._id === $session.get('userId') ? '' : 'm-r-6',
+                      comment.author._id === $session.get('userId') ? 'has-text-white' : ''
+                      ]">
+                        <strong v-bind:class="{'has-text-white': comment.author._id === $session.get('userId')}">{{ comment.author.name }}</strong> <br>
+                        {{ comment.body }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <footer class="quickview-footer">
+                    <b-field v-bind:type="{ 'is-danger': $v.comment.$error }">
+                      <b-input v-model="comment.body"/>
+                      <p class="control">
+                        <b-button
+                          type="is-primary"
+                          v-on:click="createComment(event._id)">
+                          Enviar
+                        </b-button>
+                      </p>
+                    </b-field>
+                  </footer>
+                </div>
               </div>
             </transition-group>
           </draggable>
 
           <b-field
             v-if="hasNewEvent"
-            v-bind:label="$t('default.label.new.male', { arg: $tc('stage.event', 1) })"
+            v-bind:label="$t('default.label.new.male', { arg: $tc('stage.event.label', 1) })"
             v-bind:type="{ 'is-danger': $v.event.$error }"
             v-bind:message="[ !$v.event.body.required && $v.event.body.$error ? $t('default.error.field.is.required'):'' ]">
             <b-input
@@ -87,7 +136,7 @@
             v-on:click="() => {hasNewEvent = true, event.body = ''} "
             type="is-primary"
             rounded>
-            {{ $t('default.label.new.male', { arg: $tc('stage.event', 1) }) }}
+            {{ $t('default.label.new.male', { arg: $tc('stage.event.label', 1) }) }}
           </b-button>
 
           <b-button
@@ -95,7 +144,7 @@
             v-on:click="addEvent"
             type="is-primary"
             rounded>
-            {{ $t('default.label.add', { arg: $tc('stage.event', 1) }) }}
+            {{ $t('default.label.add', { arg: $tc('stage.event.label', 1) }) }}
           </b-button>
           </div>
         </div>
@@ -105,10 +154,13 @@
     <b-modal v-bind:active.sync="isEditEventModalActive" has-modal-card>
       <story-edit-event-modal v-bind:event="eventToBeUpdated"/>
     </b-modal>
+    {{ quickviews }}
   </div>
 </template>
 
 <script>
+import 'bulma-quickview/dist/css/bulma-quickview.min.css'
+import bulmaQuickview from 'bulma-quickview/dist/js/bulma-quickview.min.js'
 import { required } from 'vuelidate/lib/validators'
 import draggable from 'vuedraggable'
 import errorMixin from '@/mixins/error'
@@ -122,6 +174,7 @@ export default {
   },
   data () {
     return {
+      quickviews: [],
       hasNewEvent: false,
       isEditEventModalActive: false,
       eventToBeUpdated: {},
@@ -129,11 +182,21 @@ export default {
         number: 0,
         author: this.$session.get('userId'),
         body: ''
+      },
+      comment: {
+        author: this.$session.get('userId'),
+        body: '',
+        readBy: [this.$session.get('userId')]
       }
     }
   },
   validations: {
     event: {
+      body: {
+        required
+      }
+    },
+    comment: {
       body: {
         required
       }
@@ -150,9 +213,9 @@ export default {
   methods: {
     async addEvent () {
       try {
-        this.$v.$touch()
+        this.$v.event.$touch()
 
-        if (!this.$v.$invalid) {
+        if (!this.$v.event.$invalid) {
           this.$store.dispatch('loading/activate')
 
           await this.$store.dispatch('story/addEvent', {
@@ -163,7 +226,7 @@ export default {
 
           this.event.body = ''
           this.hasNewEvent = false
-          this.$v.$reset()
+          this.$v.event.$reset()
 
           this.$store.dispatch('loading/deactivate')
         }
@@ -207,6 +270,30 @@ export default {
       } catch (error) {
         this.errorHandler(error)
       }
+    },
+    async createComment (eventId) {
+      try {
+        this.$v.comment.$touch()
+
+        if (!this.$v.comment.$invalid) {
+          this.hasNewEvent = false
+          this.$store.dispatch('loading/activate')
+
+          await this.$store.dispatch('story/createComment', {
+            storyId: this.$store.state.story.story._id,
+            stageId: this.stage._id,
+            eventId: eventId,
+            comment: this.comment
+          })
+
+          this.comment.body = ''
+          this.$v.comment.$reset()
+
+          this.$store.dispatch('loading/deactivate')
+        }
+      } catch (error) {
+        this.errorHandler(error)
+      }
     }
   },
   async beforeCreate () {
@@ -217,6 +304,9 @@ export default {
     } catch (error) {
       this.errorHandler(error.response)
     }
+  },
+  mounted () {
+    this.quickviews = bulmaQuickview.attach()
   }
 }
 </script>
