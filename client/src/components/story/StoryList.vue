@@ -43,7 +43,7 @@
 
         <a href="#" class="card-footer-item has-background-primary has-text-white"
           v-if="isLeader(story.authors)">
-          {{ $t('default.label.edit') }}
+          {{ $t('default.label.edit', { arg: '' }) }}
         </a>
 
         <a href="#" class="card-footer-item has-background-danger has-text-white"

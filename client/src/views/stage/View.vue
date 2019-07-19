@@ -154,7 +154,6 @@
     <b-modal v-bind:active.sync="isEditEventModalActive" has-modal-card>
       <story-edit-event-modal v-bind:event="eventToBeUpdated"/>
     </b-modal>
-    {{ quickviews }}
   </div>
 </template>
 
@@ -228,6 +227,8 @@ export default {
           this.hasNewEvent = false
           this.$v.event.$reset()
 
+          this.attachQuickviews()
+
           this.$store.dispatch('loading/deactivate')
         }
       } catch (error) {
@@ -266,6 +267,8 @@ export default {
           eventId: eventId
         })
 
+        this.attachQuickviews()
+
         this.$store.dispatch('loading/deactivate')
       } catch (error) {
         this.errorHandler(error)
@@ -294,6 +297,11 @@ export default {
       } catch (error) {
         this.errorHandler(error)
       }
+    },
+    attachQuickviews () {
+      this.$nextTick(() => {
+        this.quickviews = bulmaQuickview.attach()
+      })
     }
   },
   async beforeCreate () {
@@ -301,12 +309,11 @@ export default {
       const storyId = this.$route.params.storyId
 
       await this.$store.dispatch('story/findById', storyId)
+
+      this.attachQuickviews()
     } catch (error) {
       this.errorHandler(error.response)
     }
-  },
-  mounted () {
-    this.quickviews = bulmaQuickview.attach()
   }
 }
 </script>
