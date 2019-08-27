@@ -163,6 +163,32 @@ exports.deleteEvent = async function (req, res, next) {
   }
 }
 
+exports.updateEventReadBy = async function (req, res, next) {
+  try {
+    const { storyId, stageId, eventId, userId } = req.params
+
+    const story = await Story.findById(storyId)
+
+    story.stages.forEach(stage => {
+      if (stage.id === stageId) {
+        stage.events.forEach(event => {
+          if (event.id === eventId) {
+            event.readBy.push(userId)
+          }
+        })
+      }
+    })
+
+    await story.save()
+
+    await story.populate('stages.events.author').populate('stages.events.comments.author').execPopulate()
+
+    res.status(200).json(story)
+  } catch (error) {
+    next(error)
+  }
+}
+
 function updateEventsNumbers (stage) {
   stage.events.forEach((event, index) => {
     event.number = index + 1

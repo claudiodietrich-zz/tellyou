@@ -34,8 +34,9 @@
               multilined>
               <div class="timeline-content">
                 <router-link
-                  class="heading"
-                  v-bind:to="{ name: 'stageView', params: { storyId: story._id, stageId: stage._id } }">
+                  class="heading has-badge-rounded"
+                  v-bind:to="{ name: 'stageView', params: { storyId: story._id, stageId: stage._id } }"
+                  v-bind:data-badge="stage.events.filter(event => { return !event.readBy.includes($session.get('userId')) }).length">
                   {{ `${index + 1} - ${stage.name}` }}
                 </router-link>
               </div>

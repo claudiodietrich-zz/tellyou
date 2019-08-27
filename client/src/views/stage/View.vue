@@ -193,7 +193,8 @@ export default {
         number: 0,
         author: this.$session.get('userId'),
         keyPhrase: '',
-        body: ''
+        body: '',
+        readBy: [this.$session.get('userId')]
       },
       comment: {
         author: this.$session.get('userId'),
@@ -322,6 +323,21 @@ export default {
         this.quickviews = bulmaQuickview.attach()
       })
     },
+    updateEventReadBy (stage) {
+      const unreadEvents = stage.events.filter(event => {
+        return !event.readBy.includes(this.$session.get('userId'))
+      })
+
+      unreadEvents.forEach(async event => {
+        console.log(event)
+        await this.$store.dispatch('story/updateEventReadBy', {
+          storyId: this.$store.state.story.story._id,
+          stageId: this.stage._id,
+          eventId: event._id,
+          userId: this.$session.get('userId')
+        })
+      })
+    },
     updateCommentsReadBy (event) {
       const unreadComments = event.comments.filter(comment => {
         return !comment.readBy.includes(this.$session.get('userId'))
@@ -343,6 +359,8 @@ export default {
       const storyId = this.$route.params.storyId
 
       await this.$store.dispatch('story/findById', storyId)
+
+      await this.updateEventReadBy(this.stage)
 
       this.attachQuickviews()
     } catch (error) {
