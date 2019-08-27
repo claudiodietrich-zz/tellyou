@@ -197,3 +197,33 @@ exports.creteComment = async function (req, res, next) {
     next(error)
   }
 }
+
+exports.updateCommentsReadBy = async function (req, res, next) {
+  try {
+    const { storyId, stageId, eventId, commentId, userId } = req.params
+
+    const story = await Story.findById(storyId)
+
+    story.stages.forEach(stage => {
+      if (stage.id === stageId) {
+        stage.events.forEach(event => {
+          if (event.id === eventId) {
+            event.comments.forEach(comment => {
+              if (comment.id === commentId) {
+                comment.readBy.push(userId)
+              }
+            })
+          }
+        })
+      }
+    })
+
+    await story.save()
+
+    await story.populate('stages.events.author').populate('stages.events.comments.author').execPopulate()
+
+    res.status(200).json(story)
+  } catch (error) {
+    next(error)
+  }
+}

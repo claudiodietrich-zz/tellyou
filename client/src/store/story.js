@@ -70,6 +70,15 @@ export default {
       } catch (error) {
         throw error
       }
+    },
+    async updateComments ({ commit }, { storyId, stageId, eventId, commentId, userId }) {
+      try {
+        const response = await axios.put(`/stories/${storyId}/stages/${stageId}/events/${eventId}/comments/${commentId}/readBy/${userId}`)
+
+        commit('update', response.data)
+      } catch (error) {
+        throw error
+      }
     }
   }
 }

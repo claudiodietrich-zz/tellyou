@@ -12,6 +12,8 @@ router.post('/:storyId/stages/:stageId/events/:eventId/comments', storyControlle
 router.put('/:storyId/stages/:stageId/events', storyController.updateEvents)
 // todo: add validation
 router.put('/:storyId/stages/:stageId/events/:eventId', storyController.updateEvent)
+// todo: add validation
+router.put('/:storyId/stages/:stageId/events/:eventId/comments/:commentId/readBy/:userId', storyController.updateCommentsReadBy)
 
 // todo: add validation
 router.delete('/:storyId/stages/:stageId/events/:eventId', storyController.deleteEvent)

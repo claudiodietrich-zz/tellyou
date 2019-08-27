@@ -43,26 +43,27 @@
                     </div>
                   </div>
                 </div>
-                <footer class="card-footer">
+                <footer>
                   <a
                     href="#"
-                    class="card-footer-item has-background-primary has-text-white"
+                    class="button is-primary m-r-2 has-badge-rounded"
                     data-show="quickview"
                     v-bind:data-target="`comments-event-${event._id}`"
-                    v-on:click.prevent="">
+                    v-on:click.prevent="updateCommentsReadBy(event)"
+                    v-bind:data-badge="event.comments.filter(comment => { return !comment.readBy.includes($session.get('userId')) }).length">
                     {{ $tc('stage.event.comment', 0) }}
                   </a>
 
                   <a
                     href="#"
-                    class="card-footer-item has-background-primary has-text-white"
+                    class="button is-primary m-r-2"
                     v-on:click="openEditEventModal(event)">
                     {{ $t('default.label.edit', { arg: '' }) }}
                   </a>
 
                   <a
                     href="#"
-                    class="card-footer-item has-background-danger has-text-white"
+                    class="button is-danger"
                     v-on:click.prevent="deleteEvent(event._id)">
                     {{ $t('default.label.delete') }}
                   </a>
@@ -320,6 +321,21 @@ export default {
       this.$nextTick(() => {
         this.quickviews = bulmaQuickview.attach()
       })
+    },
+    updateCommentsReadBy (event) {
+      const unreadComments = event.comments.filter(comment => {
+        return !comment.readBy.includes(this.$session.get('userId'))
+      })
+
+      unreadComments.forEach(async comment => {
+        await this.$store.dispatch('story/updateComments', {
+          storyId: this.$store.state.story.story._id,
+          stageId: this.stage._id,
+          eventId: event._id,
+          commentId: comment._id,
+          userId: this.$session.get('userId')
+        })
+      })
     }
   },
   async beforeCreate () {
@@ -335,3 +351,14 @@ export default {
   }
 }
 </script>
+
+<style lang="css" scoped>
+.card footer {
+  text-align: right;
+  padding-right: 15px;
+  padding-bottom: 15px;
+}
+.quickview {
+  z-index: 100;
+}
+</style>
