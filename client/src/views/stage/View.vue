@@ -1,7 +1,7 @@
 <template>
   <div v-if="stage._id">
     <h1 class="title">
-      {{ `${stage.number} - ${stage.name}` }}
+      {{ stage.name }}
     </h1>
     <h2 class="subtitle">
       {{ stage.description }}
@@ -15,15 +15,6 @@
               {{ $t('stage.contex') }}
             </h1>
             <p>{{ stage.context }}</p>
-          </div>
-        </div>
-
-        <div class="column">
-          <div class="content">
-            <h1 class="is-size-4 m-b-4">
-              {{ $t('stage.keyPhrase') }}
-            </h1>
-            <p>{{ stage.keyPhrases }}</p>
           </div>
         </div>
       </div>
@@ -46,7 +37,7 @@
                 v-bind:key="event._id">
                 <div class="card-content">
                   <div class="content">
-                    {{ event.body }}
+                    {{ `${event.keyPhrase} ${event.body}` }}
                     <div class="is-size-7 has-text-right">
                       {{ event.author.name }}
                     </div>
@@ -121,9 +112,27 @@
           </draggable>
 
           <b-field
+            v-bind:label="$tc('stage.keyPhrase', 1)"
+            v-if="hasNewEvent && stage.events.length === 0"
+            v-bind:type="{ 'is-danger': $v.event.keyPhrase.$error }"
+            v-bind:message="[ !$v.event.keyPhrase.required && $v.event.keyPhrase.$error ? $t('default.error.field.is.required'):'' ]">
+            <b-select
+              placeholder="Select a character"
+              v-model="event.keyPhrase"
+              required>
+              <option
+                v-for="keyPhrase in stage.keyPhrases"
+                v-bind:key="keyPhrase"
+                v-bind:value="keyPhrase">
+                {{ keyPhrase }}
+              </option>
+            </b-select>
+          </b-field>
+
+          <b-field
             v-if="hasNewEvent"
             v-bind:label="$t('default.label.new.male', { arg: $tc('stage.event.label', 1) })"
-            v-bind:type="{ 'is-danger': $v.event.$error }"
+            v-bind:type="{ 'is-danger': $v.event.body.$error }"
             v-bind:message="[ !$v.event.body.required && $v.event.body.$error ? $t('default.error.field.is.required'):'' ]">
             <b-input
               v-model="event.body"
@@ -152,7 +161,9 @@
     </div>
 
     <b-modal v-bind:active.sync="isEditEventModalActive" has-modal-card>
-      <story-edit-event-modal v-bind:event="eventToBeUpdated"/>
+      <story-edit-event-modal
+        v-bind:keyPhrases="stage.keyPhrases"
+        v-bind:event="eventToBeUpdated"/>
     </b-modal>
   </div>
 </template>
@@ -160,7 +171,7 @@
 <script>
 import 'bulma-quickview/dist/css/bulma-quickview.min.css'
 import bulmaQuickview from 'bulma-quickview/dist/js/bulma-quickview.min.js'
-import { required } from 'vuelidate/lib/validators'
+import { required, requiredIf } from 'vuelidate/lib/validators'
 import draggable from 'vuedraggable'
 import errorMixin from '@/mixins/error'
 import StoryEditEventModal from '@/components/story/StoryEditEventModal.vue'
@@ -180,6 +191,7 @@ export default {
       event: {
         number: 0,
         author: this.$session.get('userId'),
+        keyPhrase: '',
         body: ''
       },
       comment: {
@@ -191,6 +203,11 @@ export default {
   },
   validations: {
     event: {
+      keyPhrase: {
+        required: requiredIf(function () {
+          return this.stage.events.length === 0
+        })
+      },
       body: {
         required
       }
@@ -223,6 +240,7 @@ export default {
             event: this.event
           })
 
+          this.event.keyPhrase = ''
           this.event.body = ''
           this.hasNewEvent = false
           this.$v.event.$reset()

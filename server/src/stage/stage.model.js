@@ -33,6 +33,10 @@ const eventSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  keyPhrase: {
+    type: String,
+    trim: true
+  },
   body: {
     type: String,
     required: true,

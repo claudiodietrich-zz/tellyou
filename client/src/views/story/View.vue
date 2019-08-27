@@ -22,7 +22,7 @@
         <div class="timeline">
           <div
             class="timeline-item"
-            v-for="stage in story.stages"
+            v-for="(stage, index) in orderedStages"
             v-bind:key="stage._id">
             <div
               class="timeline-marker is-32x32"
@@ -36,7 +36,7 @@
                 <router-link
                   class="heading"
                   v-bind:to="{ name: 'stageView', params: { storyId: story._id, stageId: stage._id } }">
-                  {{ `${stage.number} - ${stage.name}` }}
+                  {{ `${index + 1} - ${stage.name}` }}
                 </router-link>
               </div>
             </b-tooltip>
@@ -59,6 +59,9 @@ export default {
   computed: {
     story () {
       return this.$store.state.story.story
+    },
+    orderedStages () {
+      return this.$store.getters['story/orderedStages']
     }
   },
   async beforeCreate () {

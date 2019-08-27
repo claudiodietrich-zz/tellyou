@@ -6,7 +6,9 @@ export default {
     story: {}
   },
   getters: {
-
+    orderedStages: state => {
+      return state.story.stages.sort((a, b) => (a.number > b.number) ? 1 : -1)
+    }
   },
   mutations: {
     update (state, story) {
