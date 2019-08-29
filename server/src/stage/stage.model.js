@@ -33,11 +33,20 @@ const eventSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  keyPhrase: {
+    type: String,
+    trim: true
+  },
   body: {
     type: String,
     required: true,
     trim: true
   },
+  readBy: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }],
   comments: [commentSchema]
 })
 

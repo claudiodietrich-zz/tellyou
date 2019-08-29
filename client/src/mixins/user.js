@@ -21,6 +21,24 @@ export default {
       }
 
       this.$router.push({ name: 'home' })
+    },
+    isLeader (authors) {
+      const leaders = authors.filter(author => {
+        return author.role === 0
+      }).map(author => {
+        return author.user
+      })
+
+      return leaders.includes(this.$session.get('userId'))
+    },
+    isReviewer (authors) {
+      const reviewers = authors.filter(author => {
+        return author.role === 1
+      }).map(author => {
+        return author.user
+      })
+
+      return reviewers.includes(this.$session.get('userId'))
     }
   }
 }

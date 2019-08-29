@@ -1,6 +1,18 @@
 <template>
   <div id="mainNavBar" class="navbar-menu">
     <div class="navbar-end">
+      <router-link
+        class="navbar-item"
+        v-bind:to="{ name: 'storyList' }">
+        {{ $t('default.label.list', { arg: $tc('story.label', 2) }) }}
+      </router-link>
+
+      <router-link
+        class="navbar-item"
+        v-bind:to="{ name: 'storyCreate' }">
+        {{ $t('default.label.create', { arg: $tc('story.label', 1) }) }}
+      </router-link>
+
       <b-dropdown
         position="is-bottom-left">
         <a class="navbar-item"
@@ -12,24 +24,6 @@
           <b-icon
             icon="caret-down"/>
         </a>
-
-        <b-dropdown-item
-          has-link>
-          <router-link
-            v-bind:to="{ name: 'storyList' }">
-            {{ $t('default.label.list', { arg: $tc('story.label', 2) }) }}
-          </router-link>
-        </b-dropdown-item>
-
-        <b-dropdown-item
-          has-link>
-          <router-link
-            v-bind:to="{ name: 'storyCreate' }">
-              {{ $t('default.label.create', { arg: $tc('story.label', 1) }) }}
-          </router-link>
-        </b-dropdown-item>
-
-        <hr class="dropdown-divider">
 
         <b-dropdown-item
           v-on:click="endSession">

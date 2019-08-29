@@ -8,6 +8,21 @@
 
     <section class="modal-card-body">
       <b-field
+        v-bind:label="$tc('stage.keyPhrase', 0)"
+        v-if="keyPhrase"
+        v-bind:type="{ 'is-danger': $v.keyPhrase.$error }"
+        v-bind:message="[ !$v.keyPhrase.required && $v.keyPhrase.$error ? $t('default.error.field.is.required'):'' ]">
+        <b-select v-model="keyPhrase">
+          <option
+            v-for="keyPhrase in keyPhrases"
+            v-bind:key="keyPhrase"
+            v-bind:value="keyPhrase">
+            {{ keyPhrase }}
+          </option>
+        </b-select>
+      </b-field>
+
+      <b-field
         v-bind:type="{ 'is-danger': $v.body.$error }"
         v-bind:message="[ !$v.body.required && $v.body.$error ? $t('default.error.field.is.required'):'' ]">
         <b-input
@@ -34,16 +49,22 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators'
+import { required, requiredIf } from 'vuelidate/lib/validators'
 
 export default {
-  props: ['event'],
+  props: ['keyPhrases', 'event'],
   data () {
     return {
+      keyPhrase: this.event.keyPhrase,
       body: this.event.body
     }
   },
   validations: {
+    keyPhrase: {
+      required: requiredIf(function () {
+        return this.event.keyPhrase
+      })
+    },
     body: {
       required
     }
@@ -56,6 +77,7 @@ export default {
         if (!this.$v.$invalid) {
           this.$store.dispatch('loading/activate')
 
+          this.event.keyPhrase = this.keyPhrase
           this.event.body = this.body
 
           await this.$store.dispatch('story/updateEvent', {

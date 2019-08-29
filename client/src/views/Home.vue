@@ -20,7 +20,7 @@
 
             <div class="column">
               <figure class="image">
-                <img src="@/assets/typewriter.svg">
+                <img src="@/assets/create.svg">
               </figure>
             </div>
           </div>

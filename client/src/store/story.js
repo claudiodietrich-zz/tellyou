@@ -6,7 +6,9 @@ export default {
     story: {}
   },
   getters: {
-
+    orderedStages: state => {
+      return state.story.stages.sort((a, b) => (a.number > b.number) ? 1 : -1)
+    }
   },
   mutations: {
     update (state, story) {
@@ -60,9 +62,27 @@ export default {
         throw error
       }
     },
+    async updateEventReadBy ({ commit }, { storyId, stageId, eventId, userId }) {
+      try {
+        const response = await axios.put(`/stories/${storyId}/stages/${stageId}/events/${eventId}/readBy/${userId}`)
+
+        commit('update', response.data)
+      } catch (error) {
+        throw error
+      }
+    },
     async createComment ({ commit }, { storyId, stageId, eventId, comment }) {
       try {
         const response = await axios.post(`/stories/${storyId}/stages/${stageId}/events/${eventId}/comments`, { comment })
+
+        commit('update', response.data)
+      } catch (error) {
+        throw error
+      }
+    },
+    async updateComments ({ commit }, { storyId, stageId, eventId, commentId, userId }) {
+      try {
+        const response = await axios.put(`/stories/${storyId}/stages/${stageId}/events/${eventId}/comments/${commentId}/readBy/${userId}`)
 
         commit('update', response.data)
       } catch (error) {

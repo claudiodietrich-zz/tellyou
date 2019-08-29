@@ -22,7 +22,7 @@
         <div class="timeline">
           <div
             class="timeline-item"
-            v-for="stage in story.stages"
+            v-for="(stage, index) in orderedStages"
             v-bind:key="stage._id">
             <div
               class="timeline-marker is-32x32"
@@ -34,9 +34,10 @@
               multilined>
               <div class="timeline-content">
                 <router-link
-                  class="heading"
-                  v-bind:to="{ name: 'stageView', params: { storyId: story._id, stageId: stage._id } }">
-                  {{ `${stage.number} - ${stage.name}` }}
+                  class="heading has-badge-rounded"
+                  v-bind:to="{ name: 'stageView', params: { storyId: story._id, stageId: stage._id } }"
+                  v-bind:data-badge="stage.events.filter(event => { return !event.readBy.includes($session.get('userId')) }).length">
+                  {{ `${index + 1} - ${stage.name}` }}
                 </router-link>
               </div>
             </b-tooltip>
@@ -59,6 +60,9 @@ export default {
   computed: {
     story () {
       return this.$store.state.story.story
+    },
+    orderedStages () {
+      return this.$store.getters['story/orderedStages']
     }
   },
   async beforeCreate () {

@@ -65,7 +65,7 @@ export default {
       comment: 'comentário | comentários',
       label: 'evento | eventos'
     },
-    keyPhrase: 'palaras-chave',
+    keyPhrase: 'frases-chave | frase-chave',
     label: 'estágio',
     number: 'nº'
   },

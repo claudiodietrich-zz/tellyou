@@ -56,18 +56,10 @@
 </template>
 
 <script>
-export default {
-  props: ['stories'],
-  methods: {
-    isLeader (authors) {
-      const leaders = authors.filter(author => {
-        return author.role === 0
-      }).map(author => {
-        return author.user
-      })
+import userMixin from '@/mixins/user'
 
-      return leaders.includes(this.$session.get('userId'))
-    }
-  }
+export default {
+  mixins: [ userMixin ],
+  props: ['stories']
 }
 </script>
