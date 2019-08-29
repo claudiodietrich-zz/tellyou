@@ -57,6 +57,7 @@
                   <a
                     href="#"
                     class="button is-primary m-r-2"
+                    v-if="isLeader($store.state.story.story.authors) || isReviewer($store.state.story.story.authors) || event.author._id === $session.get('userId')"
                     v-on:click="openEditEventModal(event)">
                     {{ $t('default.label.edit', { arg: '' }) }}
                   </a>
@@ -64,6 +65,7 @@
                   <a
                     href="#"
                     class="button is-danger"
+                    v-if="isLeader($store.state.story.story.authors) || isReviewer($store.state.story.story.authors) || event.author._id === $session.get('userId')"
                     v-on:click.prevent="deleteEvent(event._id)">
                     {{ $t('default.label.delete') }}
                   </a>
@@ -175,10 +177,11 @@ import bulmaQuickview from 'bulma-quickview/dist/js/bulma-quickview.min.js'
 import { required, requiredIf } from 'vuelidate/lib/validators'
 import draggable from 'vuedraggable'
 import errorMixin from '@/mixins/error'
+import userMixin from '@/mixins/user'
 import StoryEditEventModal from '@/components/story/StoryEditEventModal.vue'
 
 export default {
-  mixins: [ errorMixin ],
+  mixins: [ errorMixin, userMixin ],
   components: {
     draggable,
     StoryEditEventModal
